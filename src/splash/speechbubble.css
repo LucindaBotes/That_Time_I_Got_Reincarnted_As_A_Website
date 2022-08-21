@@ -1,0 +1,35 @@
+.speech-bubble {
+  mix-blend-mode: lighten;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 20px;
+  color: var(--black);
+  background-color: white;
+  padding: 16px;
+  border-radius: 11px;
+  position: relative;
+  box-shadow: 20px 20px rgb(191, 191, 221);
+  font-family: "Montserrat", sans-serif;
+  height: 400px;
+  width: 800px;
+}
+
+.speech-bubble:after {
+  content: ".";
+  font-weight: bold;
+  -webkit-text-fill-color: beige;
+  text-shadow: 22px 22px rgb(191, 191, 221);
+  text-align: left;
+  font-size: 55px;
+  width: 55px;
+  height: 11px;
+  line-height: 30px;
+  border-radius: 11px;
+  background-color: beige;
+  position: absolute;
+  display: block;
+  bottom: -30px;
+  left: 0;
+  box-shadow: 22px 22px rgb(191, 191, 221);
+  z-index: -2;
+}

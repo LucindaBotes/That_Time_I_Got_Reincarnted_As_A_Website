@@ -1,0 +1,27 @@
+@import url(constants.css);
+
+a.button {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 10px 10px 0 rgba(0,0,0,.5);
+  display: inline-block;
+  padding: .5em 2em;
+  text-decoration: none;
+  width: 90%;
+  height: 50px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+a.button:hover {
+  background: var(--green);
+}
+
+a.parallelogram{
+  transform: skew(-20deg);
+}
+
+span.skew-fix{
+  display:inline-block;
+  transform: skew(20deg);
+}
