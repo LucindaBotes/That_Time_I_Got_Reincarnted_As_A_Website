@@ -48,22 +48,30 @@
             just write it down below and give me a secret passcode so I know it
             is really you next time!
             <br />
-            Reincarnation Form E-54 <br />
-            Reincarnate Name <br />
           </p>
-          <input type="text">
-          <p>Reincarnate Passcode</p>
-          <input type="text">
-          <p>Passcode Confirmation</p>
-          <input type="text">
+          <form action="../../php/register/validateRegister.php" method="post">
+            Reincarnation Form E-54<br/>
+            <label for="name">Reincarnate Name
+              <input type="text" name="name" id="name" required>
+            </label>
+            <br>
+          <label for="password">Reincarnate Passcode
+            <input type="password" name="password" id="password" required>
+          </label>
+          <br>
+          <label for="password">Passcode Confirmation
+            <input type="password" name="confirm" id="confirm" required>
+          </label>
+          <br>
           <div class="options">
-            <a class="button parallelogram" href="../login">
+            <button class="button parallelogram" href="../register">
               <span class="skew-fix"> I have already been through this </span>
-            </a>
-            <a class="button parallelogram" href="../register">
+            </button>
+            <button class="button parallelogram" type="submit">
               <span class="skew-fix"> Please don't put me in Aincrad. </span>
-            </a>
+            </button>
           </div>
+        </form>
         </div>
       </main>
     </section>

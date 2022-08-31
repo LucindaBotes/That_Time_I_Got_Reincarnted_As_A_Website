@@ -12,6 +12,14 @@
     />
     <title>Document</title>
 
+    <script type="module">
+      import { login } from './script.js'
+      const loginButton = document.getElementById('login');
+      loginButton.addEventListener('click', () => {
+        login('john', 'password');
+      });
+    </script>
+
     <link rel="stylesheet" href="../splash/index.css" />
     <link rel="stylesheet" href="../splash/background.css" />
     <link rel="stylesheet" href="../splash/speechbubble.css" />
@@ -50,23 +58,36 @@
             But you know the drill, please present your adventurer ID and secret
             passcode to verify that’s you in your body. (Shapeshifters are
             becoming a real problem these days)
-            <br />
+          </p>
+          <form action="../../php/login/login.php" method="post">
+          <br />
+          <label>
             My name is
-            <br />
-          </p>
-            <input type="text">
-          <p>  
-            <br />
+            <input
+            type="text"
+            id="loginName"
+            class="form-control"
+            placeholder="username"
+            name="name"
+            />
+          </label>
+          <label>
             and my secret passcode is
-            <br />
-          </p>
-            <input type="text">
+            <input
+            type="password"
+            id="loginPass"
+            class="form-control"
+            placeholder="******"
+            name="pass"
+            />
+            </label>
+          </form>
           <div class="options">
             <a class="button parallelogram" href="../register">
-              <span class="skew-fix"> Whoops I'm new around here </span>
+              <button class="skew-fix"> Whoops I'm new around here </button>
             </a>
-            <a class="button parallelogram" href="../login">
-              <span class="skew-fix"> Let's do this </span>
+            <a class="button parallelogram">
+              <button class="skew-fix" id="login"> Let's do this </button>
             </a>
           </div>
         </div>
