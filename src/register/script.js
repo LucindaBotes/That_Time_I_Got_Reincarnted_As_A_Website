@@ -19,7 +19,7 @@ export const register = async () => {
   )
   .then((res) => {
     if(res.status === 201) {
-      window.location.href = "/IMY220/project/src/profile/";
+      window.location.href = "/IMY220/project/src/feed/public/";
     }
   })
   .catch(err => 

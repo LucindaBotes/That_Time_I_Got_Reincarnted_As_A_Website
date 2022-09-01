@@ -1,0 +1,6 @@
+@import url(../../common/constants.css);
+
+article {
+  padding: 16px 16px 0px 16px;
+  background-color: black;
+}

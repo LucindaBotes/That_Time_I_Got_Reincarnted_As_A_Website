@@ -1,0 +1,21 @@
+@import url(../../common/constants.css);
+
+body {
+  background-color: var(--red);
+  height: 100vh;
+}
+
+article {
+  padding: 16px 16px 0px 16px;
+  background-color: black;
+}
+
+aside {
+  background-color: var(--green);
+  overflow: hidden;
+}
+
+section {
+  background-color: var(--blue);
+  overflow: scroll;
+}
