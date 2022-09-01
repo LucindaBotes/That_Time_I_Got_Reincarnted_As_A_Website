@@ -1,10 +1,11 @@
-export const login = async () => {
+export const register = async () => {
   
-  const name = document.getElementById('loginName').value;
-  const pass = document.getElementById('loginPass').value;
+  const name = document.getElementById('name').value;
+  const pass = document.getElementById('password').value;
+
   // Set to a loading state
   fetch(
-    '/IMY220/project/php/login/login.php', {
+    '/IMY220/project/php/register/register.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +18,7 @@ export const login = async () => {
     }
   )
   .then((res) => {
-    if(res.status === 200) {
+    if(res.status === 201) {
       window.location.href = "/IMY220/project/src/profile/";
     }
   })

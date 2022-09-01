@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="../../assets/favicon/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +11,15 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&PT+Sans:wght@700&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <title>Register</title>
+
+    <script type="module">
+      import { register } from './script.js'
+      const registerButton = document.getElementById('registerButton');
+      registerButton.addEventListener('click', () => {
+        register();
+      });
+    </script>
 
     <link rel="stylesheet" href="../splash/index.css" />
     <link rel="stylesheet" href="../splash/background.css" />
@@ -49,7 +58,7 @@
             is really you next time!
             <br />
           </p>
-          <form action="../../php/register/validateRegister.php" method="post">
+          <form action="../../php/register/register.php" method="post">
             Reincarnation Form E-54<br/>
             <label for="name">Reincarnate Name
               <input type="text" name="name" id="name" required>
@@ -64,12 +73,12 @@
           </label>
           <br>
           <div class="options">
-            <button class="button parallelogram" href="../register">
+            <a class="button parallelogram" href="../register">
               <span class="skew-fix"> I have already been through this </span>
-            </button>
-            <button class="button parallelogram" type="submit">
+            </a>
+            <a id="registerButton" class="button parallelogram" type="submit">
               <span class="skew-fix"> Please don't put me in Aincrad. </span>
-            </button>
+            </a>
           </div>
         </form>
         </div>

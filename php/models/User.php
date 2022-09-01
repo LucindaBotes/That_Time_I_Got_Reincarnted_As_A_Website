@@ -56,11 +56,10 @@ class User extends Database
         //match with password
         $user = $this->select('SELECT * FROM users WHERE fname = ?', ["s", $name]);
         // $saltedPassword = $password . $user[0]['salt'];
-        var_dump($user);
         $hashedPassword = hash('sha256', $password);
-        $retrievedPassword = $user[0]['password'];
-        // var_dump("Hashed: " . $hashedPassword . " Retreived: " . $retrievedPassword);
-
+        $retrievedPassword = $user[0]['pass'];
+        // var_dump($hashedPassword);
+        // var_dump($retrievedPassword);
         if ($hashedPassword === $retrievedPassword) {
           
           $api_key = $user[0]['api_key'];
@@ -75,7 +74,7 @@ class User extends Database
         } else
           throw new Exception('Incorrect password was entered', 401);
       } else {
-        throw new Exception('The email address entered does not exist', 404);
+        throw new Exception('The username entered does not exist', 404);
       }
     } catch (Exception $e) {
       if ($e->getCode() == 401) {
@@ -83,6 +82,7 @@ class User extends Database
       } else if ($e->getCode() == 404) {
         throw new Exception($e->getMessage(), 404);
       } else {
+        var_dump($e);
         throw new Exception('Error validating user', 500);
       }
     }

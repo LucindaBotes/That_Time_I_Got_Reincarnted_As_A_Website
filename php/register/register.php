@@ -1,31 +1,40 @@
 <?php
-require_once('../models/User.php');
-session_start();
+require_once('../controllers/UserController.php');
 
-$errorMessages = array();
+$userController = new UserController();
+
+$body = json_decode(file_get_contents('php://input'), true);
 try {
+  $userController->signup($body);
 
-  if (!isset($_POST['name']) || $_POST['name'] === '') {
-    array_push($errorMessages, 'Name is required');
-  }
-
-  if (!isset($_POST['password']) || $_POST['password'] === '') {
-    array_push($errorMessages, 'Password is required');
-  }
-
-  if ($errorMessages !== []) {
-    throw new Exception('', 400);
-  }
-
-  $instance = User::instance();
-  $user = $instance->addUser($_POST['name'], $_POST['password']);
-  $_SESSION['user'] = $user;
-  $_SESSION['show_api_key'] = true;
-
-  header('Location: ../../../../src/splash/index.html');
 } catch (Exception $e) {
-  array_push($errorMessages,  $e->getMessage());
-  $errorMessages = array_filter($errorMessages);
-  $_SESSION['invalid_signup_details'] = $errorMessages;
-  header('Location: register.php');
+  switch ($e->getCode()) {
+    case 400:
+      $userController->sendBadRequest($e->getMessage());
+      break;
+
+    case 401:
+      $userController->sendUnauthorized($e->getMessage());
+      break;
+
+    case 403:
+      $userController->sendForbidden($e->getMessage());
+      break;
+
+    case 404:
+      $userController->sendNotFound($e->getMessage());
+      break;
+
+    case 405:
+      $userController->sendMethodNotAllowed($e->getMessage());
+      break;
+
+    case 501:
+      $userController->sendNotImplemented($e->getMessage());
+      break;
+
+    default:
+      $userController->sendInternalServerError($e->getMessage());
+      break;
+  }
 }

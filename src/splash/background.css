@@ -5,10 +5,11 @@ section.bg {
   width: 100%;
   height: 100vh;
   /* background: url("../../assets/images/galaxy.jpg"); */
-  background: #252525;
+  background: #000000;
   background-position-x: center;
   background-size: cover;
   z-index: -1;
+  overflow: hidden;
 }
 
 span.comet {

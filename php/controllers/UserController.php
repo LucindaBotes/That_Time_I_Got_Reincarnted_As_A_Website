@@ -8,7 +8,6 @@ class UserController extends Controller
   public function signup($body)
   {
     $errorMessages = array();
-
     if (!isset($body['name']) || $body['name'] === '') {
       array_push($errorMessages, 'Name is required');
     }
@@ -28,22 +27,7 @@ class UserController extends Controller
     try {
       $instance = User::instance();
       $user = $instance->addUser($name, $password);
-
-      if (in_array('*', $body['return'])) {
-        $this->sendCreated($user);
-        die();
-      }
-
-      $returnValues = array('api_key', 'name', 'id');
-
-      $return = array();
-      foreach ($body['return'] as $value) {
-        if (in_array($value, $returnValues)) {
-          $return[$value] = $user[$value];
-        }
-      }
-
-      $this->sendCreated($return);
+      $this->sendCreated($user);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {
         $this->sendBadRequest($e->getMessage());
