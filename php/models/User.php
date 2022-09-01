@@ -20,9 +20,9 @@ class User extends Database
     $api_key_input = $name;
     $api_key = hash('sha256', $api_key_input);
 
-    $salt = $this->generateSalt();
-    $saltedPassword = $password . $salt;
-    $hashedPassword = hash('sha256', $saltedPassword);
+    // $salt = $this->generateSalt();
+    // $saltedPassword = $password . $salt;
+    $hashedPassword = hash('sha256', $password);
 
     try {
       if ($this->isNameInUse($name)) {
@@ -31,7 +31,7 @@ class User extends Database
 
       $this->insert(
         "INSERT INTO users (fname, pass, api_key) VALUES (?, ?, ?)",
-        ["ssssss", $name, $hashedPassword, $api_key]
+        ["sss", $name, $hashedPassword, $api_key]
       );
 
       return array(
@@ -54,15 +54,17 @@ class User extends Database
       if ($this->isNameInUse($name)) {
         // email exists
         //match with password
-        $user = $this->select('SELECT * FROM users WHERE name = ?', ["s", $name]);
-        $saltedPassword = $password . $user[0]['salt'];
-        $hashedPassword = hash('sha256', $saltedPassword);
-        $retrievedPassword = $user[0]['pass'];
+        $user = $this->select('SELECT * FROM users WHERE fname = ?', ["s", $name]);
+        // $saltedPassword = $password . $user[0]['salt'];
+        var_dump($user);
+        $hashedPassword = hash('sha256', $password);
+        $retrievedPassword = $user[0]['password'];
+        // var_dump("Hashed: " . $hashedPassword . " Retreived: " . $retrievedPassword);
 
         if ($hashedPassword === $retrievedPassword) {
           
           $api_key = $user[0]['api_key'];
-          $name = $user[0]['name'];
+          $name = $user[0]['fname'];
           $id = $user[0]['id'];
 
           return array(
@@ -89,7 +91,7 @@ class User extends Database
   public function isNameInUse($name)
   {
     try {
-      return $this->select('SELECT * FROM users WHERE name = ?', ["s", $name]);
+      return $this->select('SELECT * FROM users WHERE fname = ?', ["s", $name]);
     } catch (Exception $e) {
       return false;
     }
