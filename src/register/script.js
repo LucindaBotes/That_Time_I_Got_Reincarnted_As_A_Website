@@ -5,7 +5,7 @@ export const register = async () => {
 
   // Set to a loading state
   fetch(
-    '/IMY220/project/php/register/register.php', {
+    '../../php/register/register.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const register = async () => {
   )
   .then((res) => {
     if(res.status === 201) {
-      window.location.href = "/IMY220/project/src/feed/public/";
+      window.location.href = "../feed/public/";
     }
   })
   .catch(err => 

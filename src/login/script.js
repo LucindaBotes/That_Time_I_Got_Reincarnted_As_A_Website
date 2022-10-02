@@ -4,7 +4,7 @@ export const login = async () => {
   const pass = document.getElementById('loginPass').value;
   // Set to a loading state
   fetch(
-    '/IMY220/project/php/login/login.php', {
+    '../../php/login/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export const login = async () => {
   )
   .then((res) => {
     if(res.status === 200) {
-      window.location.href = "/IMY220/project/src/feed/public/";
+      window.location.href = "../feed/public/";
     }
   })
   .catch(err => 

@@ -7,7 +7,7 @@ class Database
 
   public static function instance()
   {
-    static $instance = null; // remember that this only ever gets called once
+    static $instance = null;
     if (!$instance) $instance = new static();
     return $instance;
   }
@@ -24,10 +24,12 @@ class Database
       throw new Exception($e->getMessage());
     }
   }
+
   public function __destruct()
   {
     $this->connection->close();
   }
+  
   public function select($query = "", $params = [])
   {
     try {
@@ -47,7 +49,6 @@ class Database
     try {
       $stmt = $this->executeStatement($query, $params);
       $stmt->close();
-
       return true;
     } catch (Exception $e) {
       throw new Exception($e->getMessage());
@@ -59,19 +60,18 @@ class Database
   {
     try {
       $stmt = $this->connection->prepare($query);
-
       if ($stmt === false) {
         throw new Exception("Unable to do prepared statement: " . $query);
       }
-
+      
       if ($params) {
         $stmt->bind_param(...$params);
       }
-
+      
       if (!$stmt->execute()) {
         throw new Exception("Unable to do prepared statement: " . $query);
       }
-
+      
       return $stmt;
     } catch (Exception $e) {
       throw new Exception($e->getMessage());

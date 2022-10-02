@@ -7,7 +7,7 @@ class Event extends Database
   {
     try{
       $this->insert(
-        "INSERT INTO events (ename, description, date, location, level, reward) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO events (ename, event_description, event_date, event_location, level_requirement, reward) VALUES (?, ?, ?, ?, ?, ?)",
         ["ssssss", $title, $description, $date, $location, $level, $reward]
       );
       return array(

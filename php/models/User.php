@@ -58,8 +58,6 @@ class User extends Database
         // $saltedPassword = $password . $user[0]['salt'];
         $hashedPassword = hash('sha256', $password);
         $retrievedPassword = $user[0]['pass'];
-        // var_dump($hashedPassword);
-        // var_dump($retrievedPassword);
         if ($hashedPassword === $retrievedPassword) {
           
           $api_key = $user[0]['api_key'];
@@ -82,7 +80,6 @@ class User extends Database
       } else if ($e->getCode() == 404) {
         throw new Exception($e->getMessage(), 404);
       } else {
-        var_dump($e);
         throw new Exception('Error validating user', 500);
       }
     }

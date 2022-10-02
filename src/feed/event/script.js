@@ -6,11 +6,11 @@ export const createEvent = async () => {
   const location = document.getElementById('eventLocation').value;
   const level = document.getElementById('eventLevel').value;
   const reward = document.getElementById('eventReward').value;
-
-  const newDate = new Date(date);
+  const newDate = new Date(date).toISOString().split('T')[0]
   // Set to a loading state
+
   fetch(
-    '/IMY220/project/php/events/createEvent.php', {
+    '../../../php/events/createEvent.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,14 +28,10 @@ export const createEvent = async () => {
   )
   .then((res) => {
     if(res.status === 201) {
-      window.location.href = "/IMY220/project/src/feed/public/";
+      window.location.href = "../public/";
     }
   })
   .catch(err => 
     document.getElementById("errorMessage").innerHTML = err
   );
 }
-
-// new SANews(rawArticle).render()
-// content.innerHTML = "";
-// formattedArticles.forEach((article) => content.appendChild(article));

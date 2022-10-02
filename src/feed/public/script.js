@@ -3,7 +3,7 @@ export const fetchEvent = async () => {
   const content = document.getElementById("content");
 
   fetch(
-    '/IMY220/project/php/events/getEvents.php', {
+    '../../php/events/getEvents.php', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
