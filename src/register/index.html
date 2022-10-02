@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&PT+Sans:wght@700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <title>Register</title>
 
     <script type="module">
@@ -19,9 +20,15 @@
       registerButton.addEventListener('click', () => {
         register();
       });
+
+      document.getElementById("back").onclick = function () { 
+        console.log('back');
+        window.location.href = '../login/index.html';
+      };
     </script>
 
     <link rel="stylesheet" href="../splash/index.css" />
+    <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="../splash/background.css" />
     <link rel="stylesheet" href="../splash/speechbubble.css" />
     <link rel="stylesheet" href="../common/button.css" />
@@ -52,33 +59,27 @@
           alt="Register goddess"
         />
         <div class="speech-bubble">
-          <p>
+          <p class="register-speech">
             It’s great to meet you uh, I don’t know what your name is. Oh well,
             just write it down below and give me a secret passcode so I know it
             is really you next time!
-            <br />
           </p>
           <form action="../../php/register/register.php" method="post">
-            Reincarnation Form E-54<br/>
-            <label for="name">Reincarnate Name
-              <input type="text" name="name" id="name" required>
-            </label>
-            <br>
-          <label for="password">Reincarnate Passcode
-            <input type="password" name="password" id="password" required>
-          </label>
-          <br>
-          <label for="password">Passcode Confirmation
-            <input type="password" name="confirm" id="confirm" required>
-          </label>
-          <br>
+          <label for="name">Reincarnate Name</label>
+          <input type="text" class="form-control" name="name" id="name" required>
+          <label for="password">Reincarnate Passcode</label>
+          <input type="password" class="form-control" name="password" id="password" required>
+          <label for="password">Passcode Confirmation</label>
+          <input type="password" class="form-control" name="confirm" id="confirm" required>
           <div class="options">
-            <a class="button parallelogram" href="../register">
+            <a href="../register">
+            <button class="button parallelogram" id="back" onclick="onBack()">
               <span class="skew-fix"> I have already been through this </span>
+            </button>
             </a>
-            <a id="registerButton" class="button parallelogram" type="submit">
+            <button id="registerButton" class="button parallelogram" type="submit">
               <span class="skew-fix"> Please don't put me in Aincrad. </span>
-            </a>
+            </button>
           </div>
         </form>
         </div>

@@ -27,6 +27,7 @@ export const createEvent = async () => {
     }
   )
   .then((res) => {
+    console.log(title);
     if(res.status === 201) {
       window.location.href = "../public/";
     }

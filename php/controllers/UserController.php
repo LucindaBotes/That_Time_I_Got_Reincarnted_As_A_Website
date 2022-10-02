@@ -40,7 +40,6 @@ class UserController extends Controller
   public function login($body)
   {
     $errorMessages = array();
-
     if (!isset($body["name"]) || $body["name"] === '') {
       array_push($errorMessages, 'Username is required');
     }

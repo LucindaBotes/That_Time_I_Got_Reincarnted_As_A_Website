@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&PT+Sans:wght@700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <title>Login</title>
 
     <script type="module">
@@ -19,9 +20,15 @@
       loginButton.addEventListener('click', () => {
         login();
       });
+
+      document.getElementById("back").onclick = function () { 
+        console.log('back');
+        window.location.href = '../register/index.html';
+      };
     </script>
 
     <link rel="stylesheet" href="../splash/index.css" />
+    <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="../splash/background.css" />
     <link rel="stylesheet" href="../splash/speechbubble.css" />
     <link rel="stylesheet" href="../common/button.css" />
@@ -61,9 +68,8 @@
             becoming a real problem these days)
           </p>
           <form action="../../php/login/login.php" method="post">
-          <br />
-          <label>
-            My name is
+          <label for="loginName">
+            My name is</label>
             <input
             type="text"
             id="loginName"
@@ -71,9 +77,8 @@
             placeholder="username"
             name="name"
             />
-          </label>
-          <label>
-            and my secret passcode is
+          <label for="loginPass">
+            and my secret passcode is</label>
             <input
             type="password"
             id="loginPass"
@@ -81,16 +86,15 @@
             placeholder="******"
             name="pass"
             />
-            </label>
+            <div class="options">
+              <button class="button parallelogram" id="back" onclick="onBack()">
+                <span class="skew-fix"> Whoops I'm new around here </span>
+              </button>
+              <button class="button parallelogram" type="submit">
+                <span class="skew-fix" id="login"> Let's do this </button>
+                </button>
+            </div>
           </form>
-          <div class="options">
-            <a class="button parallelogram" href="../register">
-              <button class="skew-fix"> Whoops I'm new around here </button>
-            </a>
-            <a class="button parallelogram">
-              <button class="skew-fix" id="login"> Let's do this </button>
-            </a>
-          </div>
           <span id="errorMessage"></span>
         </div>
       </main>

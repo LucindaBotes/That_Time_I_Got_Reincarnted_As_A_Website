@@ -4,7 +4,7 @@ require_once('../controllers/EventController.php');
 $eventController = new EventController();
 
 $body = json_decode(file_get_contents('php://input'), true);
-1
+
 try {
   $eventController->addEvents($body);
 } catch (Exception $e) {

@@ -17,6 +17,7 @@ export const login = async () => {
     }
   )
   .then((res) => {
+    console.log(name);
     if(res.status === 200) {
       window.location.href = "../feed/public/";
     }
