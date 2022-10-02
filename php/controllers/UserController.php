@@ -50,7 +50,6 @@ class UserController extends Controller
 
     if ($errorMessages !== []) {
       $this->sendBadRequest($errorMessages);
-      die();
     }
 
     $name = $body['name'];

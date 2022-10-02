@@ -5,10 +5,11 @@ class Event extends Database
 {
   public function addEvent($title, $description, $date, $location, $level, $reward)
   {
+    $id = 0;
     try{
       $this->insert(
-        "INSERT INTO events (ename, event_description, event_date, event_location, level_requirement, reward) VALUES (?, ?, ?, ?, ?, ?)",
-        ["ssssss", $title, $description, $date, $location, $level, $reward]
+        "INSERT INTO events (ename, event_description, event_date, event_location, level_requirement, reward, userId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ["sssssss", $title, $description, $date, $location, $level, $reward, $id]
       );
       return array(
         'title' =>$title,
@@ -17,6 +18,7 @@ class Event extends Database
         'location' =>$location,
         'level' =>$level,
         'reward' =>$reward,
+        'id' =>$id
       );
     }
     catch(Exception $e){
@@ -28,7 +30,8 @@ class Event extends Database
   public function getEvents()
   {
     try{
-      $result = $this->select("SELECT * FROM events");
+      $userId = 0;
+      $result = $this->select("SELECT * FROM events where userId = ?", ["i", $userId]);
       return $result;
     }
     catch(Exception $e){

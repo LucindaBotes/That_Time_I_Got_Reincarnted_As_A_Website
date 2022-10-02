@@ -5,7 +5,6 @@ $eventController = new EventController();
 
 try {
   $eventController->getEvents();
-
 } catch (Exception $e) {
   switch ($e->getCode()) {
     case 400:

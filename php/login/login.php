@@ -4,6 +4,7 @@ require_once('../controllers/UserController.php');
 $userController = new UserController();
 
 $body = json_decode(file_get_contents('php://input'), true);
+
 try {
   $userController->login($body);
 
