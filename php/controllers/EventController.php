@@ -32,6 +32,9 @@ class EventController extends Controller
     if (!isset($body['reward']) || $body['reward'] === '') {
       array_push($errorMessages, 'Reward is required');
     }
+    if (!isset($body['userId']) || $body['userId'] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
 
     if ($errorMessages !== []) {
       $this->sendBadRequest($errorMessages);
@@ -44,10 +47,11 @@ class EventController extends Controller
     $location = $body['location'];
     $level = $body['level'];
     $reward = $body['reward'];
+    $userId = $body['userId'];
 
     try {
       $instance = Event::instance();
-      $event = $instance->addEvent($title, $description, $date, $location, $level, $reward);
+      $event = $instance->addEvent($title, $description, $date, $location, $level, $reward, $userId);
       $this->sendCreated($event);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {
@@ -58,11 +62,11 @@ class EventController extends Controller
     }
   }
 
-  public function getEvents()
+  public function getEvents($userId)
   {
     try {
       $instance = Event::instance();
-      $events = $instance->getEvents();
+      $events = $instance->getEvents($userId);
       $this->sendSuccess($events);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {

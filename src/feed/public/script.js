@@ -9,9 +9,6 @@ export const fetchEvent = async () => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({
-        id: 1
-      })
     }
   ).then((res) => {
     res.json().then((data) => {

@@ -13,7 +13,7 @@ class User extends Database
     return implode('', $salt);
   }
 
-  public function addUser($name, $password)
+  public function addUser($name, $password, $profile_picture, $gold, $personal_level)
   { /* Add to the database
     increment id, add name, add surname, check if email exists, add email, hash and salt password, add password, create api key, add api key
     */
@@ -30,13 +30,18 @@ class User extends Database
       }
 
       $this->insert(
-        "INSERT INTO users (fname, pass, api_key) VALUES (?, ?, ?)",
-        ["sss", $name, $hashedPassword, $api_key]
+        "INSERT INTO users (fname, pass, profile_picture, gold, personal_level) VALUES (?, ?, ?, ?, ?)",
+        ["sssss", $name, $hashedPassword, $profile_picture, $gold, $personal_level]
       );
 
+      // get the id of the user that was just added
+      $userId = $this->select("SELECT id FROM users WHERE fname = ?", ["s", $name])[0]['id'];
+
       return array(
+        "userId" => $userId,
         "name" => $name,
-        "api_key" => $api_key
+        "gold" => $gold,
+        "personal_level" => $personal_level
       );
     } catch (Exception $e) {
       if ($e->getCode() == 400) {

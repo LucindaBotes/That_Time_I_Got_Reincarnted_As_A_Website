@@ -22,7 +22,8 @@ export const createEvent = async () => {
         date: newDate,
         location: location,
         level: level,
-        reward: reward
+        reward: reward,
+        userId: sessionStorage.getItem('userId')
       })
     }
   )

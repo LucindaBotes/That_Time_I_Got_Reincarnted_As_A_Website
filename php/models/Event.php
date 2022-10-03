@@ -3,13 +3,12 @@ require_once 'Database.php';
 // Lucinda Botes u19048263
 class Event extends Database
 {
-  public function addEvent($title, $description, $date, $location, $level, $reward)
+  public function addEvent($title, $description, $date, $location, $level, $reward, $userId)
   {
-    $id = 0;
     try{
       $this->insert(
         "INSERT INTO events (ename, event_description, event_date, event_location, level_requirement, reward, userId) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        ["sssssss", $title, $description, $date, $location, $level, $reward, $id]
+        ["sssssss", $title, $description, $date, $location, $level, $reward, $userId]
       );
       return array(
         'title' =>$title,
@@ -18,7 +17,7 @@ class Event extends Database
         'location' =>$location,
         'level' =>$level,
         'reward' =>$reward,
-        'id' =>$id
+        'userId' =>$userId
       );
     }
     catch(Exception $e){
@@ -27,10 +26,9 @@ class Event extends Database
     
   }
 
-  public function getEvents()
+  public function getEvents($userId)
   {
     try{
-      $userId = 0;
       $result = $this->select("SELECT * FROM events where userId = ?", ["i", $userId]);
       return $result;
     }
