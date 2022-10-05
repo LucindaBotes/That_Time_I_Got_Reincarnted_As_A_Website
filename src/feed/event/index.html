@@ -29,9 +29,10 @@
     <script type="module">
       import { createEvent } from "./script.js";
       const createButton = document.getElementById("createButton");
-      createButton.addEventListener("click", () => {
+      document.getElementById("event-form").onsubmit = function (e) {
+        e.preventDefault();
         createEvent();
-      });
+      };
     </script>
   </head>
   <body>
@@ -40,7 +41,7 @@
       <h1>That Time I Got Reincarnated By A Website</h1>
     </article>
     <section class="container">
-      <form action="javascript:createEvent()" method="post">
+      <form id="event-form" action="javascript:createEvent()" method="post">
         <div class="form-group">
           <label for="eventTitle">Quest Title</label>
           <input

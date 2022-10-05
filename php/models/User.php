@@ -65,13 +65,15 @@ class User extends Database
         $retrievedPassword = $user[0]['pass'];
         if ($hashedPassword === $retrievedPassword) {
           
-          $api_key = $user[0]['api_key'];
+          $gold = $user[0]['gold'];
           $name = $user[0]['fname'];
+          $level = $user[0]['personal_level'];
           $id = $user[0]['id'];
 
           return array(
             "name" => $name,
-            "api_key" => $api_key,
+            "gold" => $gold,
+            "level" => $level,
             "id" => $id,
           );
         } else

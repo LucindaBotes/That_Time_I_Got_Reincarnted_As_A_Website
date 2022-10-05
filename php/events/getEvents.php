@@ -3,8 +3,10 @@ require_once('../controllers/EventController.php');
 
 $eventController = new EventController();
 
+$body = json_decode(file_get_contents('php://input'), true);
+
 try {
-  $eventController->getEvents();
+  $eventController->getEvents($body['userId']);
 } catch (Exception $e) {
   switch ($e->getCode()) {
     case 400:

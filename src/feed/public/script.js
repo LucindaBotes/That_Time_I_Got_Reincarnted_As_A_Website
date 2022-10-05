@@ -9,15 +9,18 @@ export const fetchEvent = async () => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      body: JSON.stringify({
+        userId: sessionStorage.getItem('userId')
+      })
     }
   ).then((res) => {
-    res.json().then((data) => {
-      if (res.status === 200) {
+    if (res.status === 200) {
+      res.json().then((data) => {
         data.data?.map(event => {
           const eventCard = new EventCard(event).render();
           content.innerHTML += eventCard;
         })
-      }
-    })
+      })
+    }
   })
 }
