@@ -19,6 +19,13 @@ export const fetchEvent = async () => {
         data.data?.map(event => {
           const eventCard = new EventCard(event).render();
           content.innerHTML += eventCard;
+          const eventCards = document.querySelectorAll(".eventCard");
+          eventCards.forEach((card) => {
+            card.addEventListener("click", () => {
+              console.log("Click is working");
+              showModal(card);
+            });
+          });
         })
       })
     }
@@ -26,17 +33,15 @@ export const fetchEvent = async () => {
 }
 
 
-export const showModal = () => {
-  const modal = document.getElementById("exampleModal");
+export const showModal = (eventCard) => {
+  const modal = document.getElementById("exampleModalRight");
   const modalTitle = document.getElementById("exampleModalLabel");
-  const modalBody = document.getElementById("modal-body");
-  const modalFooter = document.getElementById("modal-footer");
-  const eventCards = document.querySelectorAll("#eventCard");
-  eventCards.forEach(eventCard => {
-    eventCard.addEventListener("click", () => {
-      modalTitle.innerHTML = eventCard.querySelector(".card-title").innerHTML;
-      modalBody.innerHTML = eventCard.querySelector(".card-text").innerHTML;
-      modalFooter.innerHTML = eventCard.querySelector(".card-text").innerHTML;
-    })
-  })
+  const modalBody = document.querySelectorAll("modal-body")[0];
+  const modalFooter = document.querySelectorAll("modal-footer")[0];
+  const cardtext = eventCard.querySelectorAll(".card-text");
+  modalTitle.innerHTML = eventCard.querySelector(".card-title").innerHTML;
+  cardtext.forEach((text) => {
+    console.log(modalBody);
+    modalBody.innerHTML += text.innerHTML;
+  });
 }

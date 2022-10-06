@@ -33,14 +33,7 @@
         window.location.href = "../event/";
       });
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const eventCard = document.querySelectorAll("eventCard");
-        eventCard.forEach((card) => {
-          card.addEventListener("click", () => {
-            showModal();
-          });
-        });
-      });
+      document.addEventListener("DOMContentLoaded", () => {});
     </script>
   </head>
   <body>
@@ -57,6 +50,16 @@
         <button class="button parallelogram">Party Quests</button>
       </aside>
       <main id="content" class="offset-2 col-10 row"></main>
+      <button
+        id="modalButton"
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Launch demo modal
+      </button>
+      <!-- simple modal -->
       <div
         class="modal fade"
         id="exampleModal"
@@ -71,16 +74,18 @@
               <button
                 type="button"
                 class="btn-close"
-                data-mdb-dismiss="modal"
+                data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div id="modal-body">...</div>
-            <div id="modal-footer">
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
               <button
                 type="button"
                 class="btn btn-secondary"
-                data-mdb-dismiss="modal"
+                data-bs-dismiss="modal"
               >
                 Close
               </button>

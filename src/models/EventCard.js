@@ -20,20 +20,21 @@ export class EventCard {
     const {image, title, description, date, location, level, reward } =
       this.clean();
     return `
-      <div class="padd col-3 eventCard" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+      <div class="padd col-3 eventCard" data-toggle="modal" data-target="#exampleModal">
         <div class="card-deck">
           <div class="m-2">
-          <img src="${image}" class="card-img-top" alt="...">
-          <div class="card-body p-2">
-            <h5 class="card-title">${title}</h5>
-            <p class="card-text m-0">${description}</p>
-            <div class="flex-row d-flex justify-content-between">
-              <p class="card-text m-0"><small class="text-muted">${date}</small></p>
-              <p class="card-text m-0"><small class="text-muted">${location}</small></p>
-            </div>
-            <div class="flex-row d-flex justify-content-between">
-              <p class="card-text m-0"><small class="text-muted">${level}</small></p>
-              <p class="card-text m-0"><small class="text-muted">${reward}</small></p>
+            <img src="${image}" class="card-img-top" alt="...">
+            <div class="card-body p-2">
+              <h5 class="card-title">${title}</h5>
+              <p class="card-text m-0">${description}</p>
+              <div class="flex-row d-flex justify-content-between">
+                <p class="card-text m-0"><small class="text-muted">${date}</small></p>
+                <p class="card-text m-0"><small class="text-muted">${location}</small></p>
+              </div>
+              <div class="flex-row d-flex justify-content-between">
+                <p class="card-text m-0"><small class="text-muted">${level}</small></p>
+                <p class="card-text m-0"><small class="text-muted">${reward}</small></p>
+              </div>
             </div>
           </div>
         </div>
