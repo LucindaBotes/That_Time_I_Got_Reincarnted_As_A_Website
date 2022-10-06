@@ -4,3 +4,17 @@ article {
   padding: 16px 16px 0px 16px;
   background-color: black;
 }
+
+body {
+  background-color: black;
+}
+
+input[class='form-control']{
+  background-color: #222;
+  border: 1px solid #333;
+}
+
+textarea[class='form-control']{
+  background-color: #222;
+  border: 1px solid #333;
+}

@@ -24,3 +24,19 @@ export const fetchEvent = async () => {
     }
   })
 }
+
+
+export const showModal = () => {
+  const modal = document.getElementById("exampleModal");
+  const modalTitle = document.getElementById("exampleModalLabel");
+  const modalBody = document.getElementById("modal-body");
+  const modalFooter = document.getElementById("modal-footer");
+  const eventCards = document.querySelectorAll("#eventCard");
+  eventCards.forEach(eventCard => {
+    eventCard.addEventListener("click", () => {
+      modalTitle.innerHTML = eventCard.querySelector(".card-title").innerHTML;
+      modalBody.innerHTML = eventCard.querySelector(".card-text").innerHTML;
+      modalFooter.innerHTML = eventCard.querySelector(".card-text").innerHTML;
+    })
+  })
+}

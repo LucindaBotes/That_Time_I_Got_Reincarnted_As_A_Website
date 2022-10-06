@@ -26,11 +26,20 @@
     <link rel="stylesheet" href="../../common/button.css" />
     <link rel="stylesheet" href="index.css" />
     <script type="module">
-      import { fetchEvent } from "./script.js";
+      import { fetchEvent, showModal } from "./script.js";
       window.onload = fetchEvent();
       const newEventButton = document.getElementById("newEvent");
       newEventButton.addEventListener("click", () => {
         window.location.href = "../event/";
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const eventCard = document.querySelectorAll("eventCard");
+        eventCard.forEach((card) => {
+          card.addEventListener("click", () => {
+            showModal();
+          });
+        });
       });
     </script>
   </head>
@@ -48,6 +57,40 @@
         <button class="button parallelogram">Party Quests</button>
       </aside>
       <main id="content" class="offset-2 col-10 row"></main>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div id="modal-body">...</div>
+            <div id="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-mdb-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </body>
 </html>

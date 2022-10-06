@@ -15,6 +15,7 @@ body {
   background-color: rgb(16, 16, 16);
   height: 100vh;
   font-family: 'PT Sans', sans-serif;
+  overflow-x: hidden;
 }
 
 article {
@@ -63,11 +64,23 @@ article.header > h1 {
   font-family: 'Anime';
 }
 
-/* div[class^="card"]{
-background: rgba(255, 255, 255, 0.22);
+div[class^="card"]{
+background: rgba(28, 27, 27, 0.22);
 border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(7px);
--webkit-backdrop-filter: blur(7px);
-border: 1px solid rgba(255, 255, 255, 0.33);
-} */
+}
+
+div[class^="card-body"]{
+background: rgba(0, 0, 0, 0.1);
+color: azure;
+}
+
+.padd {
+  padding: 10px;
+}
+
+div[class^="padd"]:hover{
+  background: rgba(35, 35, 35, 0.22);
+  transform: scale(1.05);
+}
+
