@@ -65,16 +65,19 @@ class User extends Database
         $retrievedPassword = $user[0]['pass'];
         if ($hashedPassword === $retrievedPassword) {
           
-          $gold = $user[0]['gold'];
-          $name = $user[0]['fname'];
-          $level = $user[0]['personal_level'];
           $id = $user[0]['id'];
+          $name = $user[0]['fname'];
+          $profile_picture = $user[0]['profile_picture'];
+          $gold = $user[0]['gold'];
+          $level = $user[0]['personal_level'];
 
           return array(
+            "id" => $id,
             "name" => $name,
+            "profile_picture" => $profile_picture,
             "gold" => $gold,
             "level" => $level,
-            "id" => $id,
+
           );
         } else
           throw new Exception('Incorrect password was entered', 401);

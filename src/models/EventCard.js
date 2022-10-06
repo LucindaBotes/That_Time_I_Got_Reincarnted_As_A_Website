@@ -6,7 +6,8 @@ export class EventCard {
   clean() {
     console.log(this.raw.description);
     return {
-      image: "../../../assets/images/placeholderImage.jpg",
+      id: this.raw.id,
+      image: this.raw.event_thumbnail? this.raw.event_thumbnail : "../../../assets/images/placeholderImage.jpg",
       title: this.raw.ename,
       date: new Date(this.raw.event_date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}),
       description: this.raw.event_description,
@@ -17,10 +18,10 @@ export class EventCard {
   }
 
   render() {
-    const {image, title, description, date, location, level, reward } =
+    const {id, image, title, description, date, location, level, reward } =
       this.clean();
     return `
-      <div class="padd col-3 eventCard" data-toggle="modal" data-target="#exampleModal">
+      <div id="eventCard-${id}" class="padd col-3 eventCard" data-toggle="modal" data-target="#exampleModal">
         <div class="card-deck">
           <div class="m-2">
             <img src="${image}" class="card-img-top" alt="...">
@@ -32,8 +33,8 @@ export class EventCard {
                 <p class="card-text m-0"><small class="text-muted">${location}</small></p>
               </div>
               <div class="flex-row d-flex justify-content-between">
-                <p class="card-text m-0"><small class="text-muted">${level}</small></p>
-                <p class="card-text m-0"><small class="text-muted">${reward}</small></p>
+                <p class="card-text m-0"><small class="text-muted">${level}-Tier</small></p>
+                <p class="card-text m-0"><small class="text-muted">${reward} gold</small></p>
               </div>
             </div>
           </div>

@@ -19,8 +19,7 @@ export const login = async () => {
     .then((res) => {
       if (res.status === 200) {
         res.json().then((data) => {
-            console.log(data.data.id);
-            sessionStorage.setItem('userId', data.data.id);
+            sessionStorage.setItem('user', JSON.stringify(data.data));
             window.location.href = "../feed/public/";
         });
       }

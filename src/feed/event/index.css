@@ -12,9 +12,15 @@ body {
 input[class='form-control']{
   background-color: #222;
   border: 1px solid #333;
+  color: white;
 }
 
 textarea[class='form-control']{
   background-color: #222;
+  color: white;
   border: 1px solid #333;
+}
+
+label {
+  color: white;
 }

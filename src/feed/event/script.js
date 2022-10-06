@@ -6,9 +6,10 @@ export const createEvent = async () => {
   const location = document.getElementById('eventLocation').value;
   const level = document.getElementById('eventLevel').value;
   const reward = document.getElementById('eventReward').value;
-  const newDate = new Date(date).toISOString().split('T')[0]
+  const newDate = new Date(date).toISOString().split('T')[0];
+  const image = document.getElementById('eventImage').files[0];
   // Set to a loading state
-
+  const user = JSON.parse(sessionStorage.getItem('user'));
   fetch(
     '../../../php/events/createEvent.php', {
       method: 'POST',
@@ -23,7 +24,8 @@ export const createEvent = async () => {
         location: location,
         level: level,
         reward: reward,
-        userId: sessionStorage.getItem('userId')
+        userId: user.id,
+        event_image: image
       })
     }
   )

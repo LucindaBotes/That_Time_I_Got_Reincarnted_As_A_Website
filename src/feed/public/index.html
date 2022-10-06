@@ -25,21 +25,43 @@
     <!-- <link rel="stylesheet" href="../../splash/index.css"> -->
     <link rel="stylesheet" href="../../common/button.css" />
     <link rel="stylesheet" href="index.css" />
+    <script src="https://use.fontawesome.com/7d2690fbaa.js"></script>
     <script type="module">
-      import { fetchEvent, showModal } from "./script.js";
+      import { fetchEvent } from "./script.js";
       window.onload = fetchEvent();
       const newEventButton = document.getElementById("newEvent");
       newEventButton.addEventListener("click", () => {
         window.location.href = "../event/";
       });
 
-      document.addEventListener("DOMContentLoaded", () => {});
+      const profileButton = document.getElementById("profile-pic");
+      const profileModal = document.getElementById("profileModal");
+      profileButton.addEventListener("click", () => {
+        // display the profile profileModal and add the user information in session storage to the html
+        profileModal.style.display = 'block';
+        const closeModal = document.getElementById("close-modal-profile");
+        const profileName = document.getElementById("profileModal-title");
+        const personalLevel = document.getElementById("profileModal-level");
+        const personalGold = document.getElementById("profileModal-gold");
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        profileName.innerHTML = user.name;
+        personalLevel.innerHTML = user.level + "-Tier";
+        personalGold.innerHTML = user.gold + "g";
+            closeModal.addEventListener("click", () => {
+              profileModal.style.display = 'none';
+            });
+      });
+
     </script>
   </head>
-  <body>
-    <article class="position-fixed header">
-      <img class="logo" src="../../../assets/images/logo.png" alt="logo" />
-      <h1>That Time I Got Reincarnated By A Website</h1>
+  <body id="body">
+    <article class="position-fixed header flex-row d-flex justify-content-between">
+      <div class="h1">
+        <img class="logo" src="../../../assets/images/logo.png" alt="logo" />
+        <h1>That Time I Got Reincarnated By A Website</h1>
+      </div>
+      <img id="profile-pic" src="../../../assets/images/profile.jpg"/>
     </article>
     <section class="row">
       <aside class="position-fixed col-2 flex-column d-flex align-items-center">
@@ -50,48 +72,114 @@
         <button class="button parallelogram">Party Quests</button>
       </aside>
       <main id="content" class="offset-2 col-10 row"></main>
-      <button
-        id="modalButton"
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Launch demo modal
-      </button>
-      <!-- simple modal -->
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+      <div id="modal">
+        <div class="modal-content">
+          <div id="modal-header" class="flex-row d-flex justify-content-between">
+            <img id="close-modal-event" src="../../../assets/images/back.png" alt=""></img>
+            <h2 id="modal-title"></h2>
+          </div>
+          <div id="modal-body">
+            <p id="modal-description"></p>
+            <div class="flex-row d-flex justify-content-between">
+              <p id="modal-date"></p>
+              <p id="modal-location"></p>
             </div>
-            <div class="modal-body">
-              <p>Modal body text goes here.</p>
+            <div class="flex-row d-flex justify-content-between">
+              <p id="modal-level"></p>
+              <p id="modal-reward"></p>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
+            <button class="button parallelogram" id="join">
+              <span class="skew-fix" id="login">Count Me In</button>  
+            </button>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Reviews
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ratings
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gallery
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+          <div id="modal-footer">
+            
+          </div>
+        </div>
+      </div>
+
+      <div id="profileModal">
+        <div class="modal-content">
+          <div id="profileModal-header" class="flex-row d-flex justify-content-between">
+            <img id="close-modal-profile" src="../../../assets/images/back.png" alt=""></img>
+            <h2 id="profileModal-title"></h2>
+          </div>
+          <div id="profileModal-body">
+            <div class="flex-row d-flex justify-content-between">
+              <p id="profileModal-level"></p>
+              <p id="profileModal-gold"></p>
+            </div>
+            <p>Edit Profile<img class="coins" src="../../../assets/images/pencil.png"/></p>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                My Events
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                My Parties
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                My Adventures
+              </a>
+            
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Attending
+              </a>
             </div>
           </div>
         </div>
