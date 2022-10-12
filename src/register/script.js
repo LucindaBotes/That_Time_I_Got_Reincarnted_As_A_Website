@@ -18,6 +18,7 @@ export const register = async () => {
     }
   )
   .then((res) => {
+    console.log(res);
     if(res.status === 201) {
       window.location.href = "../feed/public/";
     }

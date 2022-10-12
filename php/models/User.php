@@ -28,14 +28,15 @@ class User extends Database
       if ($this->isNameInUse($name)) {
         throw new Exception('User already exists', 400);
       }
-
+      
       $this->insert(
         "INSERT INTO users (fname, pass, profile_picture, gold, personal_level) VALUES (?, ?, ?, ?, ?)",
         ["sssss", $name, $hashedPassword, $profile_picture, $gold, $personal_level]
       );
-
+      
       // get the id of the user that was just added
       $userId = $this->select("SELECT id FROM users WHERE fname = ?", ["s", $name])[0]['id'];
+      var_dump($userId);
 
       return array(
         "userId" => $userId,

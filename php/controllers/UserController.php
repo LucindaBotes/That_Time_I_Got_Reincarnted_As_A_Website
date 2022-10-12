@@ -23,13 +23,14 @@ class UserController extends Controller
 
     $name = $body['name'];
     $password = $body['password'];
-    $profile_picture = $body['profile_picture'];
-    $gold = $body['gold'];
-    $personal_level = $body['personal_level'];
+    $personal_level = "F";
+    $gold = 0;
+    $profile_picture = null;
 
     try {
       $instance = User::instance();
       $user = $instance->addUser($name, $password, $profile_picture, $gold, $personal_level);
+      var_dump($user);
       $this->sendCreated($user);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {
