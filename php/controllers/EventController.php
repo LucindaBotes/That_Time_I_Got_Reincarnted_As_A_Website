@@ -6,6 +6,27 @@ require_once 'Controller.php';
 require_once(realpath(dirname(__FILE__) . '/../common/config.php'));
 class EventController extends Controller
 {
+  public function getMonsters($body)
+  {
+    $errorMessages = array();
+    if (!isset($body['userId']) || $body['userId'] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+    if ($errorMessages !== []) {
+      $this->sendBadRequest($errorMessages);
+      die();
+    }
+    $userId = $body['userId'];
+    try {
+      $instance = Event::instance();
+      $monsters = $instance->getMonsters($userId);
+      $this->sendSuccess($monsters);
+    } catch (Exception $e) {
+      $this->sendServerError($e->getMessage());
+    }
+  }
+
   public function addEvents($body)
   {
     $errorMessages = array();

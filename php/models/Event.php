@@ -3,6 +3,27 @@ require_once 'Database.php';
 // Lucinda Botes u19048263
 class Event extends Database
 {
+
+  public function getMonsters($userId){
+    try {
+      $userLevel = $this->select(
+        "SELECT uLevel FROM user WHERE id = ?",
+        ["i", $userId]
+      );
+
+      $level = $this->select(
+        "SELECT `Level` FROM `level` WHERE id = ?",
+        ["i", $userLevel[0]['uLevel']]
+      );
+      
+      $monsters = $this->select("SELECT * FROM monsters WHERE mLevel = ?", ["s", $level[0]['Level']]);
+      return $monsters;
+
+    } catch (Exception $e) {
+      throw new Exception('Error getting monsters', 500);
+    }
+  }
+
   public function addEvent($title, $description, $date, $time, $level, $reward, $userId, $thumbnail)
   {
     try{
