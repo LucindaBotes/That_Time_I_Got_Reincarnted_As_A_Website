@@ -23,9 +23,9 @@ class UserController extends Controller
 
     $name = $body['name'];
     $password = $body['password'];
-    $personal_level = "F";
+    $personal_level = 8;
     $gold = 0;
-    $profile_picture = null;
+    $profile_picture = "../../../gallery/profile.jpg";
 
     try {
       $instance = User::instance();

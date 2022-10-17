@@ -14,35 +14,38 @@ class User extends Database
   }
 
   public function addUser($name, $password, $profile_picture, $gold, $personal_level)
-  { /* Add to the database
-    increment id, add name, add surname, check if email exists, add email, hash and salt password, add password, create api key, add api key
-    */
-    $api_key_input = $name;
-    $api_key = hash('sha256', $api_key_input);
-
-    // $salt = $this->generateSalt();
-    // $saltedPassword = $password . $salt;
-    $hashedPassword = hash('sha256', $password);
-
+  {
+    $salt = $this->generateSalt();
+    $saltedPassword = $password . $salt;
+    $hashedPassword = hash('sha256', $saltedPassword);
+    $profile_id = 1;
     try {
       if ($this->isNameInUse($name)) {
         throw new Exception('User already exists', 400);
       }
       
+      $town = rand(1, 100);
+      $world = rand(1, 50);
+      $this->insert("INSERT INTO `location` (cID, tID) VALUES (?, ?)", ["ii", $world, $town]);
+      $location_id = $this->select("SELECT id FROM `location` WHERE cID = ? AND tID = ?", ["ii", $world, $town])[0]['id'];
+
+
       $this->insert(
-        "INSERT INTO users (fname, pass, profile_picture, gold, personal_level) VALUES (?, ?, ?, ?, ?)",
-        ["sssss", $name, $hashedPassword, $profile_picture, $gold, $personal_level]
+        "INSERT INTO user (uName, uPass, uSalt, uLevel, uGold, uProfile, uLocation) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ["sssidii", $name, $hashedPassword, $salt, $personal_level, $gold, $profile_id, $location_id]
       );
+
       
       // get the id of the user that was just added
-      $userId = $this->select("SELECT id FROM users WHERE fname = ?", ["s", $name])[0]['id'];
-      var_dump($userId);
+      $user = $this->select("SELECT * FROM user WHERE uName = ?", ["s", $name])[0];
 
       return array(
-        "userId" => $userId,
-        "name" => $name,
-        "gold" => $gold,
-        "personal_level" => $personal_level
+        "userId" => $user['id'],
+        "name" => $user['uName'],
+        "personal_level" => $user["uLevel"],
+        "gold" => $user["uGold"],
+        "profile_picture" => $user["uProfile"],
+        "location" => $user["uLocation"]
       );
     } catch (Exception $e) {
       if ($e->getCode() == 400) {
@@ -58,26 +61,26 @@ class User extends Database
 
     try {
       if ($this->isNameInUse($name)) {
-        // email exists
-        //match with password
-        $user = $this->select('SELECT * FROM users WHERE fname = ?', ["s", $name]);
-        // $saltedPassword = $password . $user[0]['salt'];
-        $hashedPassword = hash('sha256', $password);
-        $retrievedPassword = $user[0]['pass'];
+        $user = $this->select('SELECT * FROM user WHERE uName = ?', ["s", $name]);
+        $saltedPassword = $password . $user[0]['uSalt'];
+        $hashedPassword = hash('sha256', $saltedPassword);
+        $retrievedPassword = $user[0]['uPass'];
         if ($hashedPassword === $retrievedPassword) {
           
           $id = $user[0]['id'];
-          $name = $user[0]['fname'];
-          $profile_picture = $user[0]['profile_picture'];
-          $gold = $user[0]['gold'];
-          $level = $user[0]['personal_level'];
+          $name = $user[0]['uName'];
+          $level = $user[0]['uLevel'];
+          $gold = $user[0]['uGold'];
+          $profile_picture = $user[0]['uProfile'];
+          $location = $user[0]['uLocation'];
 
           return array(
             "id" => $id,
             "name" => $name,
-            "profile_picture" => $profile_picture,
             "gold" => $gold,
             "level" => $level,
+            "profile_picture" => $profile_picture,
+            "location" => $location
 
           );
         } else
@@ -99,20 +102,14 @@ class User extends Database
   public function isNameInUse($name)
   {
     try {
-      return $this->select('SELECT * FROM users WHERE fname = ?', ["s", $name]);
+      return $this->select('SELECT * FROM user WHERE uName = ?', ["s", $name]);
     } catch (Exception $e) {
       return false;
     }
   }
 
-  public function doesApiKeyExist($api_key)
-  {
-    try {
-      $this->select('SELECT * FROM users WHERE api_key = ?', ["s", $api_key]);
-    } catch (Exception $e) {
-      throw new Exception('Your authorization failed, please use a valid API key', 401);
-    }
-  }
+  
+
   public function updateUser($theme, $filter, $api_key)
   {
     try {

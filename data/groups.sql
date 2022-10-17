@@ -1,0 +1,10 @@
+insert into groups (id, gName) values (1, 'Corrupted Honour');
+insert into groups (id, gName) values (2, 'Crumbled Immortals');
+insert into groups (id, gName) values (3, 'Moonlight Dominion');
+insert into groups (id, gName) values (4, 'Civilians of the Wolf');
+insert into groups (id, gName) values (5, 'Last of the Abandoned');
+insert into groups (id, gName) values (6, 'Attack of Serenity');
+insert into groups (id, gName) values (7, 'Mysteries of the Dissipated');
+insert into groups (id, gName) values (8, 'Earthfists');
+insert into groups (id, gName) values (9, 'Wind Dragons');
+insert into groups (id, gName) values (10, 'Water Rats');

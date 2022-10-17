@@ -6,7 +6,7 @@ $eventController = new EventController();
 $body = json_decode(file_get_contents('php://input'), true);
 
 try {
-  $eventController->getEvents($body['userId']);
+  $eventController->getGroupEvents($body['userId']);
 } catch (Exception $e) {
   switch ($e->getCode()) {
     case 400:
