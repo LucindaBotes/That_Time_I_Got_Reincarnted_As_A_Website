@@ -120,4 +120,32 @@ class Event extends Database
       throw new Exception('Error getting event', 500);
     }
   }
+
+  public function createEventList($listName, $userId){
+    try {
+      $this->insert(
+        "INSERT INTO lists (lName) VALUES (?)",
+        ["s", $listName]
+      );
+
+      $listID = $this->select(
+        "SELECT id FROM lists WHERE lName = ?",
+        ["s", $listName]
+      );
+
+      $this->insert(
+        "INSERT INTO user_lists (uID, listID) VALUES (?, ?)",
+        ["ii", $userId, $listID[0]['id']]
+      );
+
+      return array(
+        'listName' =>$listName
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error creating event list', 500);
+    } catch (Exception $e) {
+      throw new Exception('Error creating event list', 500);
+    }
+  }
 }

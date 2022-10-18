@@ -131,4 +131,37 @@ class EventController extends Controller
       }
     }
   }
+
+  public function createEventList($body)
+  {
+    try {
+      $errorMessages = array();
+      if (!isset($body['listName']) || $body['listName'] === '') {
+        array_push($errorMessages, 'List name is required');
+      }
+
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $listName = $body['listName'];
+      $userId = $body['userId'];
+
+      $instance = Event::instance();
+      $eventList = $instance->createEventList($listName, $userId);
+      $this->sendSuccess($eventList);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+
+  }
 }
