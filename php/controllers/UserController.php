@@ -30,7 +30,6 @@ class UserController extends Controller
     try {
       $instance = User::instance();
       $user = $instance->addUser($name, $password, $profile_picture, $gold, $personal_level);
-      var_dump($user);
       $this->sendCreated($user);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {
@@ -83,6 +82,95 @@ class UserController extends Controller
       return $instance->doesApiKeyExist($body['api_key']);
     } catch (Exception $e) {
       throw new Exception($e->getMessage(), $e->getCode());
+    }
+  }
+
+  public function createGroup($body){
+    $errorMessages = array();
+    if (!isset($body["groupName"]) || $body["groupName"] === '') {
+      array_push($errorMessages, 'Group needs a name');
+    }
+
+    if (!isset($body["userId"]) || $body["userID"] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+
+    if ($errorMessages !== []) {
+      $this->sendBadRequest($errorMessages);
+      die();
+    }
+
+    $groupName = $body['groupName'];
+    $userId = $body['userId'];
+
+    try {
+      $instance = User::instance();
+      $user = $instance->createGroup($groupName, $userId);
+      $this->sendCreated($user);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  public function joinGroup($body){
+    $errorMessages = array();
+    if (!isset($body["groupId"]) || $body["groupId"] === '') {
+      array_push($errorMessages, 'Group needs a name');
+    }
+
+    if (!isset($body["userId"]) || $body["userID"] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+    if ($errorMessages !== []) {
+      $this->sendBadRequest($errorMessages);
+      die();
+    }
+
+    $groupId = $body['groupId'];
+    $userId = $body['userId'];
+
+    try {
+      $instance = User::instance();
+      $user = $instance->joinGroup($groupId, $userId);
+      $this->sendCreated($user);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  public function getUserGroups($body){
+    $errorMessages = array();
+    if (!isset($body['userId']) || $body['userId'] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+    if ($errorMessages !== []) {
+      $this->sendBadRequest($errorMessages);
+      die();
+    }
+
+    $user_id = $body['userId']; 
+
+    try {
+      $instance = User::instance();
+      $user = $instance->getUserGroups($user_id);
+      $this->sendSuccess($user);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
     }
   }
 

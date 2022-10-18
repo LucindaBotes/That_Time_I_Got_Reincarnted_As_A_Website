@@ -44,9 +44,7 @@ class Message extends Database
         "SELECT id FROM messages WHERE mText = ? AND mTime = ?",
         ["si", $message, $time]
       );
-
-      var_dump($groupID);
-
+      
       $this->insert(
         "INSERT INTO group_messages (messageID, uID, gID ) VALUES (?, ?, ?)",
         ["iii", $messageID[0]['id'], $userId, $groupID]

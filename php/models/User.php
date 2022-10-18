@@ -29,14 +29,11 @@ class User extends Database
       $this->insert("INSERT INTO `location` (cID, tID) VALUES (?, ?)", ["ii", $world, $town]);
       $location_id = $this->select("SELECT id FROM `location` WHERE cID = ? AND tID = ?", ["ii", $world, $town])[0]['id'];
 
-
       $this->insert(
         "INSERT INTO user (uName, uPass, uSalt, uLevel, uGold, uProfile, uLocation) VALUES (?, ?, ?, ?, ?, ?, ?)",
         ["sssidii", $name, $hashedPassword, $salt, $personal_level, $gold, $profile_id, $location_id]
       );
-
       
-      // get the id of the user that was just added
       $user = $this->select("SELECT * FROM user WHERE uName = ?", ["s", $name])[0];
 
       return array(
@@ -108,7 +105,53 @@ class User extends Database
     }
   }
 
-  
+  public function createGroup($groupName, $userId){
+    try {
+      $this->insert("INSERT INTO `groups` (gName) VALUES (?)", ["s", $groupName]);
+      $group = $this->select("SELECT * FROM `groups` WHERE gName = ?", ["s", $groupName])[0];
+      $this->insert("INSERT INTO `group_users` (gID, uID) VALUES (?, ?)", ["ii", $group['id'], $userId]);
+      return array(
+        "groupId" => $group['id'],
+        "groupName" => $group['gName']
+      );
+    }
+    catch (Exception $e){
+      throw new Exception('Error creating group', 500);
+    }
+  }
+
+  public function joinGroup($groupId, $userId){
+    try {
+      $inGorup = $this->select("SELECT * FROM `group_users` WHERE gID = ? AND uID = ?", ["ii", $groupId, $userId]);
+      if($inGorup){
+        throw new Exception('User is already in group', 400);
+      }
+      $this->insert("INSERT INTO `group_users` (gID, uID) VALUES (?, ?)", ["ii", $groupId, $userId]);
+      $group = $this->select("SELECT * FROM `groups` WHERE id = ?", ["i", $groupId])[0];
+      return array(
+        "groupId" => $group['id'],
+        "groupName" => $group['gName']
+      );
+    }
+    catch (Exception $e){
+      throw new Exception('Error joining group', 500);
+    }
+  }
+
+  public function getUserGroups($userId){
+    try {
+      $groups = $this->select("SELECT * FROM `group_users` WHERE uID = ?", ["i", $userId]);
+      $groupArray = array();
+      foreach($groups as $group){
+        var_dump($group);
+        $groupArray[] = $this->select("SELECT * FROM `groups` WHERE id = ?", ["i", $group['gID']])[0];
+      }
+      return $groupArray;
+    }
+    catch (Exception $e){
+      throw new Exception('Error getting user groups', 500);
+    }
+  }
 
   public function updateUser($theme, $filter, $api_key)
   {
@@ -167,4 +210,3 @@ class User extends Database
     }
   }
 }
-
