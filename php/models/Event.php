@@ -148,4 +148,68 @@ class Event extends Database
       throw new Exception('Error creating event list', 500);
     }
   }
+
+  public function addReview($review, $userId, $eventId){
+    try{
+      $this->insert(
+        "INSERT INTO reviews (rText) VALUES (?)",
+        ["s", $review]
+      );
+
+      $reviewID = $this->select(
+        "SELECT id FROM reviews WHERE rText = ?",
+        ["s", $review]
+      );
+
+      $this->insert(
+        "INSERT INTO event_reviews (reviewId, eID, uID) VALUES (?, ?, ?)",
+        ["iii", $reviewID[0]['id'], $eventId, $userId]
+      );
+      
+      return array(
+        'review' =>$review
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error adding review', 500);
+    }
+  }
+
+  public function rateEvent($rating, $userId, $eventId){
+    try{
+      $ratingId = $this->select(
+        "SELECT id FROM ratings WHERE rating = ?",
+        ["d", $rating]
+      );
+
+      $this->insert(
+        "INSERT INTO event_ratings (ratingID, eID, uID) VALUES (?, ?, ?)",
+        ["iii", $ratingId[0]['id'], $eventId, $userId]
+      );
+
+      return array(
+        'rating' =>$rating
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error rating event', 500);
+    }
+  }
+
+  public function updateReview($review, $userId, $eventId){
+    try{
+      $reviewID = $this->select(
+        "SELECT reviewId FROM event_reviews WHERE eID = ? AND uID = ?",
+        ["ii", $eventId, $userId]
+      );
+
+      $this->update(
+        "UPDATE reviews SET rText = ? WHERE id = ?",
+        ["si", $review, $reviewID[0]['reviewId']]
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error updating review', 500);
+    }
+  }
 }

@@ -61,6 +61,22 @@ class Message extends Database
       throw new Exception('Error sending message', 500);
     }
   }
+
+  public function getPersonalMessages($userId, $receiverId){
+    try{
+      $messages = $this->select("SELECT messageID FROM personal_messages WHERE senderID = ? AND receiverID = ?", ["ii", $userId, $receiverId]);
+
+      $messageShown = [];
+      foreach($messages as $message){
+        $messageShown[] = $this->select("SELECT * FROM messages WHERE id = ?", ["i", $message['messageID']]);
+      }
+
+      return $messageShown;
+    }
+    catch(Exception $e){
+      throw new Exception('Error getting message', 500);
+    }
+  }
 }
 
 

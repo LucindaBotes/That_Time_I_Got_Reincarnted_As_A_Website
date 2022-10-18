@@ -26,10 +26,10 @@ class MessageController extends Controller
       die();
     }
 
-    $time = date("h:i:sa");
     $message = $body['message'];
     $userId = $body['userId'];
     $receiverID = $body['receiverId'];
+    $time = date("h:i:sa");
 
     try {
       $instance = Message::instance();
@@ -60,10 +60,10 @@ class MessageController extends Controller
       die();
     }
 
-    $time = date("h:i:sa");
     $message = $body['message'];
     $userId = $body['userId'];
     $groupId = $body['groupID'];
+    $time = date("h:i:sa");
 
     try {
       $instance = Message::instance();
@@ -73,4 +73,37 @@ class MessageController extends Controller
       $this->sendServerError($e->getMessage());
     }
   }
+
+  public function getPersonalMessages($body)
+  {
+    $errorMessages = array();
+    if (!isset($body['userId']) || $body['userId'] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+    if (!isset($body['receiverId']) || $body['receiverId'] === '') {
+      array_push($errorMessages, 'You are not logged in');
+    }
+
+    if ($errorMessages !== []) {
+      $this->sendBadRequest($errorMessages);
+      die();
+    }
+    $userId = $body['userId'];
+    $receiverId = $body['receiverId'];
+    try {
+      $instance = Message::instance();
+      $messages = $instance->getPersonalMessages($userId, $receiverId);
+      $this->sendSuccess($messages);
+    } catch (Exception $e) {
+      $this->sendServerError($e->getMessage());
+    }
+  }
 }
+
+// Delete personal message
+// Update personal message
+// get all personal messages
+// get all group messages
+// Delete group message
+// Update group message

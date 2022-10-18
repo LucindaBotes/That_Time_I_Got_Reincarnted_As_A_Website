@@ -164,4 +164,127 @@ class EventController extends Controller
     }
 
   }
+
+  public function addReview($body){
+    try{
+      $errorMessages = array();
+      if (!isset($body['review']) || $body['review'] === '') {
+        array_push($errorMessages, 'Review is required');
+      }
+
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $review = $body['review'];
+      $userId = $body['userId'];
+      $eventId = $body['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->addReview($review, $userId, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+
+  }
+
+  public function rateEvent($body){
+    try{
+      $errorMessages = array();
+      if (!isset($body['rating']) || $body['rating'] === '') {
+        array_push($errorMessages, 'Rating is required');
+      }
+
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $rating = $body['rating'];
+      $userId = $body['userId'];
+      $eventId = $body['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->rateEvent($rating, $userId, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+
+  }
+
+  public function updateReview($body){
+    try{
+      $errorMessages = array();
+      if (!isset($body['review']) || $body['review'] === '') {
+        array_push($errorMessages, 'Review is required');
+      }
+
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $review = $body['review'];
+      $userId = $body['userId'];
+      $eventId = $body['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->updateReview($review, $userId, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
 }
+
+// Delete event
+// Update event - Name
+// Update event - Description
+// Update event - Date
+// Update event - Time
+// Update event - Reward
+// Delete event from list
+// Delete Event from list
+// Delete review
+// Delete rating
+// Upload image to gallery
+// Delete image from gallery
