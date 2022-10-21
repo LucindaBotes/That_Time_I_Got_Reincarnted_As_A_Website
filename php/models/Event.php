@@ -151,18 +151,28 @@ class Event extends Database
 
   public function addReview($review, $userId, $eventId){
     try{
+      $check = $this->select(
+        "SELECT * FROM event_reviews WHERE uID = ? AND eID = ?",
+        ["ii", $userId, $eventId]
+      );
+      
+      if($check){
+        throw new Exception('You have already reviewed this event', 500);
+      }
+
       $this->insert(
         "INSERT INTO reviews (rText) VALUES (?)",
         ["s", $review]
       );
 
+      //TODO: Cannot have duplicate reviews
       $reviewID = $this->select(
         "SELECT id FROM reviews WHERE rText = ?",
         ["s", $review]
       );
-
+      
       $this->insert(
-        "INSERT INTO event_reviews (reviewId, eID, uID) VALUES (?, ?, ?)",
+        "INSERT INTO event_reviews (reviewID, eID, uID) VALUES (?, ?, ?)",
         ["iii", $reviewID[0]['id'], $eventId, $userId]
       );
       
@@ -212,4 +222,135 @@ class Event extends Database
       throw new Exception('Error updating review', 500);
     }
   }
+
+  public function deleteEvent($eventId){
+    try{
+      throw new Exception("Cannot Delete event", 1);
+      
+      // // check if event is in a list
+      // $list = $this->select(
+      //   "SELECT listID FROM event_lists WHERE eID = ?",
+      //   ["i", $eventId]
+      // );
+
+      // // if event is in a list, delete from list
+      // if($list){
+      //   $this->delete(
+      //     "DELETE FROM event_lists WHERE eID = ?",
+      //     ["i", $eventId]
+      //   );
+      // }
+
+      // // check if event has a review
+      // $review = $this->select(
+      //   "SELECT reviewId FROM event_reviews WHERE eID = ?",
+      //   ["i", $eventId]
+      // );
+
+      // // if event has a review, delete review
+      // if($review){
+      //   $this->delete(
+      //     "DELETE FROM reviews WHERE id = ?",
+      //     ["i", $review[0]['reviewId']]
+      //   );
+      // }
+
+      // // check if event has a rating
+      // $rating = $this->select(
+      //   "SELECT ratingID FROM event_ratings WHERE eID = ?",
+      //   ["i", $eventId]
+      // );
+
+      // // if event has a rating, delete rating
+      // if($rating){
+      //   $this->delete(
+      //     "DELETE FROM ratings WHERE id = ?",
+      //     ["i", $rating[0]['ratingID']]
+      //   );
+      // }
+
+      // // delete event
+      // $this->delete(
+      //   "DELETE FROM events WHERE id = ?",
+      //   ["i", $eventId]
+      // );
+
+      // // delete event from user_event
+      // $this->delete(
+      //   "DELETE FROM user_event WHERE eID = ?",
+      //   ["i", $eventId]
+      // );
+
+      // // attendance
+      // // event_list
+      // // event_reviews
+      // // event_ratings
+      // // event_gallery
+      // // event_level
+      // // event_monsters
+      // // event_thumbnail
+      // // event_location
+      // // event
+    }
+    catch(Exception $e){
+      throw new Exception('Error deleting event', 500);
+    }
+  }
+
+  public function deleteReview($userId, $eventId){
+    try{
+      $reviewID = $this->select(
+        "SELECT reviewID FROM event_reviews WHERE eID = ? AND uID = ?",
+        ["ii", $eventId, $userId]
+      );
+
+      var_dump($reviewID[0]['reviewID']);
+      die();
+      $this->delete(
+        "DELETE FROM reviews WHERE id = ?",
+        ["i", $reviewID[0]['reviewID']]
+      );
+
+      $this->delete(
+        "DELETE FROM event_reviews WHERE eID = ? AND uID = ?",
+        ["ii", $eventId, $userId]
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error deleting review', 500);
+    }
+  }
+
+  public function deleteRating($userId, $eventId){
+    try{
+      $this->delete(
+        "DELETE FROM event_ratings WHERE eID = ? AND uID = ?",
+        ["ii", $eventId, $userId]
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error deleting rating', 500);
+    }
+  }
+
+  public function updateEvent($eventId, $userId, $update){
+    try {
+
+    }
+    catch (Exception $e) {
+      throw new Exception('Error updating event', 500);
+    }
+  }
 }
+
+//! Delete event
+// Update event - Name
+// Update event - Description
+// Update event - Date
+// Update event - Time
+// Update event - Reward
+//! Delete event from list
+//* Delete review
+//* Delete rating
+// Upload image to gallery
+// Delete image from gallery

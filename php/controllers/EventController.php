@@ -274,6 +274,74 @@ class EventController extends Controller
       }
     }
   }
+
+  public function deleteReview($body){
+    try{
+      $errorMessages = array();
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $userId = $body['userId'];
+      $eventId = $body['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->deleteReview($userId, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  public function deleteRating($body){
+    try{
+      $errorMessages = array();
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'You are not logged in');
+      }
+
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $userId = $body['userId'];
+      $eventId = $body['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->deleteRating($userId, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }catch (Exception $e){
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
 }
 
 // Delete event

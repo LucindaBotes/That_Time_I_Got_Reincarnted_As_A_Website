@@ -191,7 +191,3 @@ class MessageController extends Controller
   }
 
 }
-
-//* Delete message
-//* Update message
-//* get all group messages
