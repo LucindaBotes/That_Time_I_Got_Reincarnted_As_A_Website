@@ -6,6 +6,7 @@ require_once 'Controller.php';
 require_once(realpath(dirname(__FILE__) . '/../common/config.php'));
 class EventController extends Controller
 {
+
   public function getMonsters($body)
   {
     $errorMessages = array();
@@ -335,6 +336,66 @@ class EventController extends Controller
         $this->sendInternalServerError($e->getMessage());
       }
     }catch (Exception $e){
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  // public function updateEvent($body){
+  //   try{
+  //     $errorMessages = array();
+  //     if (!isset($body['update']) || $body['update'] === '') {
+  //       array_push($errorMessages, 'Update is required');
+  //     }
+
+  //     if (!isset($body['value']) || $body['value'] === '') {
+  //       array_push($errorMessages, 'value is required');
+  //     }
+
+  //     if (!isset($body['eventId']) || $body['eventId'] === '') {
+  //       array_push($errorMessages, 'Event is required');
+  //     }
+
+  //     if ($errorMessages !== []) {
+  //       $this->sendBadRequest($errorMessages);
+  //       die();
+  //     }
+
+  //     $update = $body['update'];
+  //     $value = $body['value'];
+  //     $eventId = $body['eventId'];
+
+  //     $instance = Event::instance();
+  //     $event = $instance->updateEvent($eventId, $update, $value);
+  //     $this->sendSuccess($event);
+  //   } catch (Exception $e) {
+  //     if ($e->getCode() === 400) {
+  //       $this->sendBadRequest($e->getMessage());
+  //     } else {
+  //       $this->sendInternalServerError($e->getMessage());
+  //     }
+  //   }
+  // }
+
+  public function updateEvent($body) {
+    try {
+      $errorMessages = array();
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $instance = Event::instance();
+      $event = $instance->updateEvent($body);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
       if ($e->getCode() === 400) {
         $this->sendBadRequest($e->getMessage());
       } else {

@@ -3,6 +3,29 @@ require_once 'Database.php';
 // Lucinda Botes u19048263
 class Event extends Database
 {
+  public $cols = array(
+    "id" => "id",
+    "name" => "eName",
+    "description" => "eDescription",
+    "date" => "eDate",
+    "time" => "eTime",
+    "location" => "eLocation",
+    "level" => "eLevel",
+    "reward" => "eReward",
+    "thumbnail" => "eThumbnail",
+  );
+
+  public $types = array(
+    "id" => "i",
+    "name" => "s",
+    "description" => "s",
+    "date" => "s",
+    "time" => "s",
+    "location" => "i",
+    "level" => "i",
+    "reward" => "d",
+    "thumbnail" => "i",
+  );
 
   public function getMonsters($userId){
     try {
@@ -333,13 +356,64 @@ class Event extends Database
     }
   }
 
-  public function updateEvent($eventId, $userId, $update){
+  // public function updateEvent($eventId, $update, $value){
+  //   try {
+  //     $col = "e" . $update;
+  //     $this->update(
+  //       "UPDATE events SET $col = ? WHERE id = ?",
+  //       ["si", $value, $eventId]
+  //     );
+  //   }
+  //   catch (Exception $e) {
+  //     throw new Exception('Error updating event', 500);
+  //   }
+  // }
+
+  public function getEvent($id) {
+
     try {
+      $event = $this->select(
+        "SELECT * FROM events WHERE id = ?",
+        ["i", $id]
+      );
+
+      return $event;
+    } catch (Exception $e) {
+      throw new Exception('Error getting event', 500);
+    }
+  }
+
+  public function updateEvent($body) {
+    // For each key in the body, find the column name and update the value
+    try {
+      $eventId = $body['eventId'];
+      unset($body['eventId']);
+      $query = "UPDATE events SET ";
+      $columns = "";
+      $values = array();
+      $types = "";
+      // Iterate through the body and build the query
+      foreach ($body as $key => $value) {
+        $columns .= "," . $this->cols[$key] . " = ? ";
+        array_push($values, $value);
+        $types .= $this->types[$key];
+      }
+
+      $query .= substr($columns, 1) . " WHERE id = ?";
+      array_push($values, $eventId);
+      $types .= "i";
+
+      $this->update($query, array($types, ...$values));
+
+      // Return the updated event
+      return $this->getEvent($eventId);
+
 
     }
     catch (Exception $e) {
       throw new Exception('Error updating event', 500);
     }
+
   }
 }
 
