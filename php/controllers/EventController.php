@@ -31,8 +31,8 @@ class EventController extends Controller
   public function addEvents($body)
   {
     $errorMessages = array();
-    if (!isset($body['name']) || $body['name'] === '') {
-      array_push($errorMessages, 'name is required');
+    if (!isset($body['title']) || $body['title'] === '') {
+      array_push($errorMessages, 'title is required');
     }
 
     if (!isset($body['description']) || $body['description'] === '') {
@@ -43,9 +43,9 @@ class EventController extends Controller
       array_push($errorMessages, 'Date is required');
     }
 
-    if (!isset($body['time']) || $body['time'] === '') {
-      array_push($errorMessages, 'Time is required');
-    }
+    // if (!isset($body['time']) || $body['time'] === '') {
+    //   array_push($errorMessages, 'Time is required');
+    // }
 
     if (!isset($body['level']) || $body['level'] === '') {
       array_push($errorMessages, 'Level is required');
@@ -64,17 +64,18 @@ class EventController extends Controller
       die();
     }
 
-    $name = $body['name'];
+    
+    $name = $body['title'];
     $description = $body['description'];
     $date = $body['date']; // 2020-12-31
-    $time = $body['time']; // 12:00
+    // $time = $body['time']; // 12:00
+    $time = "00:12:00";
     $level = $body['level'];
     $reward = $body['reward'];
     $userId = $body['userId'];
-    // $thumbnail_path = $body['thumbnail'] ? $body['thumbnail'] : "../../gallery/placeholderImage.jpg";
-    $thumbnail = 2;
-
-
+    $thumbnail = $body['thumbnail'] ? $body['thumbnail'] : "../../gallery/placeholderImage.jpg";
+    
+    
     try {
       $instance = Event::instance();
       $event = $instance->addEvent($name, $description, $date, $time, $level, $reward, $userId, $thumbnail);

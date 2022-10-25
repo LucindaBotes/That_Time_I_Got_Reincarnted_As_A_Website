@@ -29,9 +29,10 @@
     <script type="module">
       import { createEvent } from "./script.js";
       const createButton = document.getElementById("createButton");
+      const eventImage = document.getElementsByName('eventImage')[0];
       document.getElementById("event-form").onsubmit = function (e) {
         e.preventDefault();
-        createEvent();
+        createEvent(eventImage.files[0]);
       };
     </script>
   </head>

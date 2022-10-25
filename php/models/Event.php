@@ -55,6 +55,7 @@ class Event extends Database
         "SELECT uLocation FROM user WHERE id = ?", ["i", $userId]
       );
 
+      var_dump($location_id);
       $location = $location_id[0]['uLocation'];
 
       $this->insert(
@@ -73,6 +74,7 @@ class Event extends Database
       );
 
       return array(
+        'eventID' =>$eventID[0]['id'],
         'title' =>$title,
         'description' =>$description,
         'date' =>$date,

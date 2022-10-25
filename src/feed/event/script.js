@@ -1,4 +1,4 @@
-export const createEvent = async () => {
+export const createEvent = async (file) => {
   
   const title = document.getElementById('eventTitle').value;
   const description = document.getElementById('eventDescription').value;
@@ -7,46 +7,22 @@ export const createEvent = async () => {
   const level = document.getElementById('eventLevel').value;
   const reward = document.getElementById('eventReward').value;
   const newDate = new Date(date).toISOString().split('T')[0];
-  const image = document.getElementById('eventImage').files[0];
-
-
-  // ------------------------------------Thumbnail Image------------------------------------
   if(!['image/jpeg', 'image/png'].includes(file.type))
-	{
-		document.getElementById('uploaded_image').innerHTML = '<div class="alert alert-danger">Only .jpg and .png image are allowed</div>';
-
-		document.getElementsByName('sample_image')[0].value = '';
-
-		return;
-	}
-
-	if(file.size > 2 * 1024 * 1024)
-	{
-		document.getElementById('uploaded_image').innerHTML = '<div class="alert alert-danger">File must be less than 2 MB</div>';
-
-		document.getElementsByName('sample_image')[0].value = '';
-
-		return;
-	}
-
-  const form_data = new FormData();
-
-    form_data.append('sample_image', file);
-
-    fetch("../../php/images/uploadImage.php", {
-    	method:"POST",
-    	body : form_data,
-    }).then(function(response){
-      console.log(response);
-    	return response.json();
-    }).then(function(responseData){
-      console.log(responseData.data.imagePath);
-    	document.getElementById('uploaded_image').innerHTML = '<div class="alert alert-success">Image Uploaded Successfully</div> <img src="'+responseData.data.imagePath+'" class="img-thumbnail" />';
-
-    	document.getElementsByName('sample_image')[0].value = '';
-
-    });
-  // Set to a loading state
+      {
+        // document.getElementById('uploaded_image').innerHTML = '<div class="alert alert-danger">Only .jpg and .png image are allowed</div>';
+        document.getElementsByName('eventImage')[0].value = '';
+        return;
+      }
+      if(file.size > 2 * 1024 * 1024)
+      {
+        // document.getElementById('uploaded_image').innerHTML = '<div class="alert alert-danger">File must be less than 2 MB</div>';
+        document.getElementsByName('eventImage')[0].value = '';
+        return;
+      }
+      const form_data = new FormData();
+      form_data.append('eventImage', file);
+  // ------------------------------------Thumbnail Image------------------------------------
+  
   const user = JSON.parse(sessionStorage.getItem('user'));
   fetch(
     '../../../php/events/createEvent.php', {
@@ -63,17 +39,31 @@ export const createEvent = async () => {
         level: level,
         reward: reward,
         userId: user.id,
-        event_image: image
+        thumbnail: 0,
       })
     }
   )
   .then((res) => {
-    console.log(title);
     if(res.status === 201) {
-      window.location.href = "../public/";
+      console.log(res.json());
+      res.json().then((data) => {
+        console.log(data);
+        form_data.append('event_id', data.data.eventID);
+        return fetch("../../php/images/uploadThumbnail.php", {
+          method:"POST",
+          body : form_data,
+        }).then(function(response){
+          console.log(response);
+          return response.json();
+        }).then(function(responseData){
+          sessionStorage.setItem('thumbnail', JSON.stringify(responseData.data));
+          window.location.href = "../public/";
+        });
+      });
     }
   })
   .catch(err => 
     document.getElementById("errorMessage").innerHTML = err
   );
 }
+
