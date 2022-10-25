@@ -356,19 +356,6 @@ class Event extends Database
     }
   }
 
-  // public function updateEvent($eventId, $update, $value){
-  //   try {
-  //     $col = "e" . $update;
-  //     $this->update(
-  //       "UPDATE events SET $col = ? WHERE id = ?",
-  //       ["si", $value, $eventId]
-  //     );
-  //   }
-  //   catch (Exception $e) {
-  //     throw new Exception('Error updating event', 500);
-  //   }
-  // }
-
   public function getEvent($id) {
 
     try {
@@ -392,7 +379,6 @@ class Event extends Database
       $columns = "";
       $values = array();
       $types = "";
-      // Iterate through the body and build the query
       foreach ($body as $key => $value) {
         $columns .= "," . $this->cols[$key] . " = ? ";
         array_push($values, $value);
@@ -418,11 +404,11 @@ class Event extends Database
 }
 
 //! Delete event
-// Update event - Name
-// Update event - Description
-// Update event - Date
-// Update event - Time
-// Update event - Reward
+//* Update event - Name
+//* Update event - Description
+//* Update event - Date
+//* Update event - Time
+//* Update event - Reward
 //! Delete event from list
 //* Delete review
 //* Delete rating

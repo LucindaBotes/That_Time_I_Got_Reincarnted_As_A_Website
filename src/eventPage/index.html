@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="script.js"></script>
+  <script  type="module">
+    import {upload_image} from './script.js'
+      document.getElementById('uploadImg').onsubmit = function(e) {
+        e.preventDefault();
+        const sample_image = document.getElementsByName('sample_image')[0];
+        upload_image(sample_image.files[0]);
+      }
+  </script>
+</head>
+<body>
+  <form id="uploadImg" action="">
+    <input type="file" name="sample_image" />
+    <input type="submit" value="Upload Image" name="submit" />
+  </form>
+  <div class="text-center" id="uploaded_image"></div>
+</body>
+</html>
