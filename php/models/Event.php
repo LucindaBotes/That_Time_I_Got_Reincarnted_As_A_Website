@@ -55,7 +55,6 @@ class Event extends Database
         "SELECT uLocation FROM user WHERE id = ?", ["i", $userId]
       );
 
-      var_dump($location_id);
       $location = $location_id[0]['uLocation'];
 
       $this->insert(
@@ -71,6 +70,38 @@ class Event extends Database
       $this->insert(
         "INSERT INTO user_event (uID, eID) VALUES (?, ?)",
         ["ii", $userId, $eventID[0]['id']]
+      );
+
+      // insert thumbnail into gallery
+      $this->insert(
+        "INSERT INTO gallery (imagePath) VALUES (?)",
+        ["s", $thumbnail]
+      );
+
+      // get thumbnail id
+      $thumbnailID = $this->select(
+        "SELECT id FROM gallery WHERE imagePath = ?",
+        ["s", $thumbnail]
+      );
+
+      // insert thumbnail into event_gallery
+      $this->insert(
+        "INSERT INTO thumbnail_gallery (galleryID, externID) VALUES (?, ?)",
+        ["ii", $thumbnailID[0]['id'], $eventID[0]['id']]
+      );
+
+      var_dump($thumbnailID);
+
+      // selectId from thumbnail_gallery
+      $thumbnailGalleryID = $this->select(
+        "SELECT id FROM thumbnail_gallery WHERE galleryID = ? AND externID = ?",
+        ["ii", $thumbnailID[0]['id'], $eventID[0]['id']]
+      );
+
+      // update event thumbnail
+      $this->update(
+        "UPDATE events SET eThumbnail = ? WHERE id = ?",
+        ["ii", $thumbnailGalleryID[0]['id'], $eventID[0]['id']]
       );
 
       return array(

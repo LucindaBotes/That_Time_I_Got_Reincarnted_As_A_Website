@@ -31,31 +31,27 @@ class EventController extends Controller
   public function addEvents($body)
   {
     $errorMessages = array();
-    if (!isset($body['title']) || $body['title'] === '') {
-      array_push($errorMessages, 'title is required');
+    if (!isset($_POST['title']) || $_POST['title'] === '') {
+      array_push($errorMessages, 'Title is required');
     }
 
-    if (!isset($body['description']) || $body['description'] === '') {
+    if (!isset($_POST['description']) || $_POST['description'] === '') {
       array_push($errorMessages, 'Description is required');
     }
 
-    if (!isset($body['date']) || $body['date'] === '') {
+    if (!isset($_POST['date']) || $_POST['date'] === '') {
       array_push($errorMessages, 'Date is required');
     }
 
-    // if (!isset($body['time']) || $body['time'] === '') {
-    //   array_push($errorMessages, 'Time is required');
-    // }
-
-    if (!isset($body['level']) || $body['level'] === '') {
-      array_push($errorMessages, 'Level is required');
+    if (!isset($_POST['time']) || $_POST['time'] === '') {
+      array_push($errorMessages, 'Time is required');
     }
 
-    if (!isset($body['reward']) || $body['reward'] === '') {
+    if (!isset($_POST['reward']) || $_POST['reward'] === '') {
       array_push($errorMessages, 'Reward is required');
     }
 
-    if (!isset($body['userId']) || $body['userId'] === '') {
+    if (!isset($_POST['userId']) || $_POST['userId'] === '') {
       array_push($errorMessages, 'You are not logged in');
     }
 
@@ -64,17 +60,20 @@ class EventController extends Controller
       die();
     }
 
+    $extension = pathinfo($_FILES['eventImage']['name'], PATHINFO_EXTENSION);
+    $new_name = time() . '.' . $extension;
+    move_uploaded_file($_FILES['eventImage']['tmp_name'], '../../gallery/' . $new_name);
+    $thumbnail = array(
+      'image_source'		=>	'../../gallery/' . $new_name
+    );
     
-    $name = $body['title'];
-    $description = $body['description'];
-    $date = $body['date']; // 2020-12-31
-    // $time = $body['time']; // 12:00
-    $time = "00:12:00";
-    $level = $body['level'];
-    $reward = $body['reward'];
-    $userId = $body['userId'];
-    $thumbnail = $body['thumbnail'] ? $body['thumbnail'] : "../../gallery/placeholderImage.jpg";
-    
+    $name = $_POST['title'];
+    $description = $_POST['description'];
+    $date = $_POST['date']; // 2020-12-31
+    $time = $_POST['time']; // 12:00
+    $level = $_POST['level'];
+    $reward = $_POST['reward'];
+    $userId = $_POST['userId'];
     
     try {
       $instance = Event::instance();

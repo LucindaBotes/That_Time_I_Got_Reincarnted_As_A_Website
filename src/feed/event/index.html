@@ -64,14 +64,25 @@
             placeholder="Enter Quest Description"
           ></textarea>
         </div>
-        <div class="form-group">
-          <label for="eventDate">Quest Date</label>
-          <input
-            type="date"
-            class="form-control"
-            id="eventDate"
-            name="eventDate"
-          />
+        <div class="form-group row">
+          <div class="col-6">
+            <label for="eventDate">Quest Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="eventDate"
+              name="eventDate"
+            />
+          </div>
+          <div class="col-6">
+            <label for="eventTime">Quest Time</label>
+            <input
+              type="time"
+              class="form-control"
+              id="eventTime"
+              name="eventTime"
+            />
+          </div>
         </div>
         <div class="form-group">
           <label for="eventLocation">Quest Location</label>
@@ -118,6 +129,7 @@
           Let's not jump to our deaths
         </button>
       </form>
+      <div id="error"></div>
     </section>
   </body>
 </html>
