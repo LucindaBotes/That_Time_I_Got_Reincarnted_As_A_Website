@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="index.css" />
 
     <script type="module">
-      import { createEvent } from "./script.js";
+      import { createEvent, getMonsters } from "./script.js";
+      window.onload = getMonsters();
       const createButton = document.getElementById("createButton");
       const eventImage = document.getElementsByName('eventImage')[0];
       document.getElementById("event-form").onsubmit = function (e) {
@@ -85,23 +86,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="eventLocation">Quest Location</label>
-          <input
-            type="text"
-            class="form-control"
-            id="eventLocation"
-            name="eventLocation"
-            placeholder="Enter Quest Location"
-          />
-        </div>
-        <div class="form-group">
-          <label for="eventLevel">Quest Level</label>
-          <input
-            type="text"
-            class="form-control"
-            id="eventLevel"
-            name="eventLevel"
-          />
+          <label for="monsterList">Quest Monster</label>
+          <select class="form-control" id="monsterList" name="monsters">
+          </select>
         </div>
         <div class="form-group">
           <label for="eventReward">Quest Reward</label>
@@ -113,7 +100,6 @@
             placeholder="Enter Quest Reward"
           />
         </div>
-        <!-- image upload -->
         <div class="form-group">
           <label for="eventImage">Quest Image</label>
           <input

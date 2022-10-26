@@ -55,6 +55,10 @@ class EventController extends Controller
       array_push($errorMessages, 'You are not logged in');
     }
 
+    if (!isset($_POST['monster']) || $_POST['monster'] === '') {
+      array_push($errorMessages, 'Monster is required');
+    }
+
     if ($errorMessages !== []) {
       $this->sendBadRequest($errorMessages);
       die();
@@ -71,13 +75,13 @@ class EventController extends Controller
     $description = $_POST['description'];
     $date = $_POST['date']; // 2020-12-31
     $time = $_POST['time']; // 12:00
-    $level = $_POST['level'];
+    $monsterId = $_POST['monster'];
     $reward = $_POST['reward'];
     $userId = $_POST['userId'];
     
     try {
       $instance = Event::instance();
-      $event = $instance->addEvent($name, $description, $date, $time, $level, $reward, $userId, $thumbnail);
+      $event = $instance->addEvent($name, $description, $date, $time, $monsterId, $reward, $userId, $thumbnail);
       $this->sendCreated($event);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {
@@ -344,41 +348,6 @@ class EventController extends Controller
     }
   }
 
-  // public function updateEvent($body){
-  //   try{
-  //     $errorMessages = array();
-  //     if (!isset($body['update']) || $body['update'] === '') {
-  //       array_push($errorMessages, 'Update is required');
-  //     }
-
-  //     if (!isset($body['value']) || $body['value'] === '') {
-  //       array_push($errorMessages, 'value is required');
-  //     }
-
-  //     if (!isset($body['eventId']) || $body['eventId'] === '') {
-  //       array_push($errorMessages, 'Event is required');
-  //     }
-
-  //     if ($errorMessages !== []) {
-  //       $this->sendBadRequest($errorMessages);
-  //       die();
-  //     }
-
-  //     $update = $body['update'];
-  //     $value = $body['value'];
-  //     $eventId = $body['eventId'];
-
-  //     $instance = Event::instance();
-  //     $event = $instance->updateEvent($eventId, $update, $value);
-  //     $this->sendSuccess($event);
-  //   } catch (Exception $e) {
-  //     if ($e->getCode() === 400) {
-  //       $this->sendBadRequest($e->getMessage());
-  //     } else {
-  //       $this->sendInternalServerError($e->getMessage());
-  //     }
-  //   }
-  // }
 
   public function updateEvent($body) {
     try {
@@ -403,17 +372,67 @@ class EventController extends Controller
       }
     }
   }
-}
 
-// Delete event
-// Update event - Name
-// Update event - Description
-// Update event - Date
-// Update event - Time
-// Update event - Reward
-// Delete event from list
-// Delete Event from list
-// Delete review
-// Delete rating
-// Upload image to gallery
-// Delete image from gallery
+  public function uploadImage($body){
+    try{
+      $errorMessages = array();
+      if (!isset($_POST['eventId']) || $_POST['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if(!isset($_FILES['image']))
+      {
+        array_push($errorMessages, 'Image is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+      $new_name = time() . '.' . $extension;
+      move_uploaded_file($_FILES['image']['tmp_name'], '../../gallery/' . $new_name);
+      $data = array(
+        'image_source'		=>	'../../gallery/' . $new_name
+        //"../../../gallery/"
+      );
+
+      $eventId = $_POST['eventId'];
+
+      $instance = Event::instance();
+      $event = $instance->uploadImage($data, $eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  public function deleteEvent($body) {
+    try {
+      $errorMessages = array();
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $instance = Event::instance();
+      $event = $instance->deleteEvent($body);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+}

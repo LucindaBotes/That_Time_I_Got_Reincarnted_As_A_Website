@@ -20,7 +20,10 @@ export const register = async () => {
   .then((res) => {
     console.log(res);
     if(res.status === 201) {
-      window.location.href = "../feed/public/";
+      res.json().then((data) => {
+        sessionStorage.setItem('user', JSON.stringify(data.data));
+        window.location.href = "../feed/public/";
+    });
     }
   })
   .catch(err => 

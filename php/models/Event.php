@@ -47,10 +47,14 @@ class Event extends Database
     }
   }
 
-  public function addEvent($title, $description, $date, $time, $level, $reward, $userId, $thumbnail)
+  public function addEvent($title, $description, $date, $time, $monsterId, $reward, $userId, $thumbnail)
   {
     try{
-      // get the user location
+      $level = $this->select(
+        "SELECT uLevel FROM user WHERE id = ?",
+        ["i", $userId]
+      );
+
       $location_id = $this->select(
         "SELECT uLocation FROM user WHERE id = ?", ["i", $userId]
       );
@@ -61,7 +65,6 @@ class Event extends Database
         "INSERT INTO events (eName, eDescription, eDate, eTime, eLocation, eLevel, eReward, eThumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         ["ssssiidi", $title, $description, $date, $time, $location, $level, $reward, $thumbnail]
       );
-      // get event id
       $eventID = $this->select(
         "SELECT id FROM events WHERE eName = ? AND eDescription = ? AND eDate = ? AND eTime = ? AND eLocation = ? AND eLevel = ? AND eReward = ? AND eThumbnail = ?",
         ["ssssiidi", $title, $description, $date, $time, $location, $level, $reward, $thumbnail]
@@ -72,36 +75,34 @@ class Event extends Database
         ["ii", $userId, $eventID[0]['id']]
       );
 
-      // insert thumbnail into gallery
       $this->insert(
         "INSERT INTO gallery (imagePath) VALUES (?)",
         ["s", $thumbnail]
       );
 
-      // get thumbnail id
       $thumbnailID = $this->select(
         "SELECT id FROM gallery WHERE imagePath = ?",
         ["s", $thumbnail]
       );
 
-      // insert thumbnail into event_gallery
       $this->insert(
         "INSERT INTO thumbnail_gallery (galleryID, externID) VALUES (?, ?)",
         ["ii", $thumbnailID[0]['id'], $eventID[0]['id']]
       );
 
-      var_dump($thumbnailID);
-
-      // selectId from thumbnail_gallery
       $thumbnailGalleryID = $this->select(
         "SELECT id FROM thumbnail_gallery WHERE galleryID = ? AND externID = ?",
         ["ii", $thumbnailID[0]['id'], $eventID[0]['id']]
       );
 
-      // update event thumbnail
       $this->update(
         "UPDATE events SET eThumbnail = ? WHERE id = ?",
         ["ii", $thumbnailGalleryID[0]['id'], $eventID[0]['id']]
+      );
+
+      $this->insert(
+        "INSERT INTO event_monster (eID, mID) VALUES (?, ?)",
+        ["ii", $eventID[0]['id'], $monsterId]
       );
 
       return array(
@@ -113,6 +114,7 @@ class Event extends Database
         'location' =>$location,
         'level' =>$level,
         'reward' =>$reward,
+        'monsterId' =>$monsterId,
         'event_thumbnail' =>$thumbnail
       );
     }
@@ -125,7 +127,7 @@ class Event extends Database
   public function getAllEvents()
   {
     try{
-      $result = $this->select("SELECT * FROM events", []);
+      $result = $this->select("SELECT * FROM events WHERE deleted = NULL", []);
       return $result;
     }
     catch(Exception $e){
@@ -139,7 +141,7 @@ class Event extends Database
       $eventList = $this->select("SELECT * FROM user_event WHERE uID = ?", ["i", $id]);
       $events = [];
       foreach($eventList as $event){
-        $events[] = $this->select("SELECT * FROM events WHERE id = ?", ["i", $event['eID']]);
+          $events[] = $this->select("SELECT * FROM events WHERE id = ? AND deleted = NULL", ["i", $event['eID']]);
       }
       return $events;
     }
@@ -167,7 +169,7 @@ class Event extends Database
 
       $eventShown = [];
       foreach($events as $event){
-        $eventShown[] = $this->select("SELECT * FROM events WHERE id = ?", ["i", $event[0]['eID']]);
+        $eventShown[] = $this->select("SELECT * FROM events WHERE id = ? AND deleted = NULL", ["i", $event[0]['eID']]);
       }
 
       return $eventShown;
@@ -281,72 +283,11 @@ class Event extends Database
 
   public function deleteEvent($eventId){
     try{
-      throw new Exception("Cannot Delete event", 1);
-      
-      // // check if event is in a list
-      // $list = $this->select(
-      //   "SELECT listID FROM event_lists WHERE eID = ?",
-      //   ["i", $eventId]
-      // );
-
-      // // if event is in a list, delete from list
-      // if($list){
-      //   $this->delete(
-      //     "DELETE FROM event_lists WHERE eID = ?",
-      //     ["i", $eventId]
-      //   );
-      // }
-
-      // // check if event has a review
-      // $review = $this->select(
-      //   "SELECT reviewId FROM event_reviews WHERE eID = ?",
-      //   ["i", $eventId]
-      // );
-
-      // // if event has a review, delete review
-      // if($review){
-      //   $this->delete(
-      //     "DELETE FROM reviews WHERE id = ?",
-      //     ["i", $review[0]['reviewId']]
-      //   );
-      // }
-
-      // // check if event has a rating
-      // $rating = $this->select(
-      //   "SELECT ratingID FROM event_ratings WHERE eID = ?",
-      //   ["i", $eventId]
-      // );
-
-      // // if event has a rating, delete rating
-      // if($rating){
-      //   $this->delete(
-      //     "DELETE FROM ratings WHERE id = ?",
-      //     ["i", $rating[0]['ratingID']]
-      //   );
-      // }
-
-      // // delete event
-      // $this->delete(
-      //   "DELETE FROM events WHERE id = ?",
-      //   ["i", $eventId]
-      // );
-
-      // // delete event from user_event
-      // $this->delete(
-      //   "DELETE FROM user_event WHERE eID = ?",
-      //   ["i", $eventId]
-      // );
-
-      // // attendance
-      // // event_list
-      // // event_reviews
-      // // event_ratings
-      // // event_gallery
-      // // event_level
-      // // event_monsters
-      // // event_thumbnail
-      // // event_location
-      // // event
+      // set deleted column in events table to 1
+      $this->update(
+        "UPDATE events SET deleted = 1 WHERE id = ?",
+        ["i", $eventId]
+      );
     }
     catch(Exception $e){
       throw new Exception('Error deleting event', 500);
@@ -434,16 +375,82 @@ class Event extends Database
     }
 
   }
-}
 
-//! Delete event
-//* Update event - Name
-//* Update event - Description
-//* Update event - Date
-//* Update event - Time
-//* Update event - Reward
-//! Delete event from list
-//* Delete review
-//* Delete rating
-// Upload image to gallery
-// Delete image from gallery
+  public function uploadImage($image, $eventId){
+    try{
+      $this->insert(
+        "INSERT INTO gallery (imagePath) VALUES (?)",
+        ["s", $image]
+      );
+
+      $imageId = $this->select(
+        "SELECT id FROM gallery WHERE imagePath = ?",
+        ["s", $image]
+      );
+
+      $this->insert(
+        "INSERT INTO event_gallery (externID, galleryID) VALUES (?, ?)",
+        ["ii", $eventId, $imageId[0]['id']]
+      );
+
+      return array(
+        'image' =>$image
+      );
+
+    }
+    catch(Exception $e){
+      throw new Exception('Error uploading image', 500);
+    }
+  }
+
+  public function isEventDeleted($eventId){
+    try{
+      $event = $this->select(
+        "SELECT deleted FROM events WHERE id = ?",
+        ["i", $eventId]
+      );
+
+      if($event){
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+    catch(Exception $e){
+      throw new Exception('Error checking if event is deleted', 500);
+    }
+  }
+
+  public function getEventLocation($eventId){
+    try{
+      $location = $this->select(
+        "SELECT location FROM events WHERE id = ?",
+        ["i", $eventId]
+      );
+
+      $townCountry = $this->select(
+        "SELECT cID, tID FROM location WHERE id = ?",
+        ["i", $location[0]['location']]
+      );
+
+      $country = $this->select(
+        "SELECT wName FROM world WHERE id = ?",
+        ["i", $townCountry[0]['cID']]
+      );
+
+      $town = $this->select(
+        "SELECT tName FROM town WHERE id = ?",
+        ["i", $townCountry[0]['tID']]
+      );
+
+      return array(
+        'country' => $country[0]['wName'],
+        'town' => $town[0]['tName']
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error getting event location', 500);
+    }
+  }
+}

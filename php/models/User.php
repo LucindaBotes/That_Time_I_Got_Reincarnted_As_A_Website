@@ -3,6 +3,29 @@ require_once 'Database.php';
 
 class User extends Database
 {
+
+  public $cols = array(
+    'id' => 'id',
+    'name' => 'uName',
+    'password' => 'uPass',
+    'salt' => 'uSalt',
+    'level' => 'uLevel',
+    'gold' => 'uGold',
+    'profile_image' => 'uProfile',
+    'location' => 'uLocation',
+  );
+
+  public $types = array(
+    'id' => 'i',
+    'name' => 's',
+    'password' => 's',
+    'salt' => 's',
+    'level' => 'i',
+    'gold' => 'd',
+    'profile_image' => 'i',
+    'location' => 'i',
+  );
+
   public function generateSalt(int $length = 6, string $keySelection = '0123456789abcdefghijklmnnopqrestuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   {
     $salt = [];
@@ -37,7 +60,7 @@ class User extends Database
       $user = $this->select("SELECT * FROM user WHERE uName = ?", ["s", $name])[0];
 
       return array(
-        "userId" => $user['id'],
+        "id" => $user['id'],
         "name" => $user['uName'],
         "personal_level" => $user["uLevel"],
         "gold" => $user["uGold"],
@@ -62,7 +85,7 @@ class User extends Database
         $saltedPassword = $password . $user[0]['uSalt'];
         $hashedPassword = hash('sha256', $saltedPassword);
         $retrievedPassword = $user[0]['uPass'];
-        if ($hashedPassword === $retrievedPassword) {
+        if ($hashedPassword === $retrievedPassword && !$this->isUserDeleted($user[0]['id'])) {
           
           $id = $user[0]['id'];
           $name = $user[0]['uName'];
@@ -70,6 +93,8 @@ class User extends Database
           $gold = $user[0]['uGold'];
           $profile_picture = $user[0]['uProfile'];
           $location = $user[0]['uLocation'];
+
+          
 
           return array(
             "id" => $id,
@@ -153,11 +178,27 @@ class User extends Database
     }
   }
 
-  public function updateUser($theme, $filter, $api_key)
+  public function updateUser($body)
   {
     try {
       
-      $this->insert('UPDATE users SET theme = ? , filter = ? WHERE api_key = ?', ["sss", $theme, $filter, $api_key]);
+      $userId = $body['userId'];
+      unset($body['userId']);
+      $query = "UPDATE user SET ";
+      $types = "";
+      $values = array();
+      $columns = "";
+      foreach($body as $key => $value){
+        $columns .= "," . $this->cols[$key] . " = ?";
+        array_push($values, $value);
+        $types .= $this->types[$key];
+      }
+
+      $query .= substr($columns, 1) . " WHERE id = ?";
+      array_push($values, $userId);
+      $types .= "i";
+
+      $this->update($query, [$types, ...$values]);
   
     } catch (Exception $e) {
       if ($e->getCode() == 401) {
@@ -169,44 +210,37 @@ class User extends Database
       }
     }
   }
-  
-  public function getRatings($id)
-  {
+
+  public function deleteUser($userId) {
     try {
-      return $this->select(
-        'SELECT * FROM UserArticleRating INNER JOIN users ON users.id = UserArticleRating.user_id INNER JOIN ratings ON ratings.id = UserArticleRating.rating_id INNER JOIN articles ON articles.id = UserArticleRating.article_id WHERE users.id = ?',
-        ["i", $id]
-      );
+      $this->update("UPDATE user SET deleted = 1 WHERE id = ?", ["i", $userId]);
     } catch (Exception $e) {
-      throw $e;
-    }
-  }
-  
-  public function rate($user_id, $article_title, $rating)
-  {
-    try {
-  
-      $article_title_hash = hash('sha256', $article_title);
-  
-      $article_id = $this->select('SELECT id FROM articles WHERE article_hash = ?', ["s", $article_title_hash]);
-  
-      if (empty($article_id)) {
-        $this->insert('INSERT INTO articles (article_hash) VALUES (?)', ["s", $article_title_hash]);
-        $article_id = $this->select('SELECT id FROM articles WHERE article_hash = ?', ["s", $article_title_hash]);
+      if ($e->getCode() == 401) {
+        throw new Exception($e->getMessage(), 401);
+      } else if ($e->getCode() == 404) {
+        throw new Exception($e->getMessage(), 404);
+      } else {
+        throw new Exception('Error validating user', 500);
       }
-  
-      $article_id = $article_id[0]['id'];
-  
-      $rating_id = $this->select('SELECT id FROM ratings WHERE rating = ?', ["i", $rating]);
-      $rating_id = $rating_id[0]['id'];
-  
-  
-      $this->insert(
-        "INSERT INTO UserArticleRating (user_id, article_id, rating_id) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE rating_id = VALUES (rating_id)",
-        ["iii", $user_id, $article_id, $rating_id]
-      );
-    } catch (Exception $e) {
-      throw $e;
     }
   }
+
+  public function isUserDeleted($userId) {
+    try {
+      $user = $this->select("SELECT deleted FROM user WHERE id = ?", ["i", $userId]);
+      if($user){
+        return false;
+      }
+      return true;
+    } catch (Exception $e) {
+      if ($e->getCode() == 401) {
+        throw new Exception($e->getMessage(), 401);
+      } else if ($e->getCode() == 404) {
+        throw new Exception($e->getMessage(), 404);
+      } else {
+        throw new Exception('Error validating user', 500);
+      }
+    }
+  }
+  
 }
