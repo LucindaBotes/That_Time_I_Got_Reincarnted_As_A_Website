@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: rgb(16, 16, 16);
+  background-color: #043137;
   height: 100vh;
   font-family: 'PT Sans', sans-serif;
   overflow-x: hidden;
@@ -20,7 +20,7 @@ body {
 
 article {
   padding: 16px 16px 0px 16px;
-  background-color: rgb(9, 9, 9);
+  background-color: #001824;
   z-index: 10;
 }
 
@@ -32,7 +32,7 @@ aside {
 section {
   padding-top: 150px;
   z-index: -1;
-  background-color: rgb(16, 16, 16);
+  background-color: #043137;
   height: calc(100vh - 150px);
 }
 
@@ -68,6 +68,10 @@ article.header > .h1 > h1 {
   font-family: 'Anime';
 }
 
+div[class^="card-img-top"] {
+  border-radius: 16px 16px 0px 0px;
+}
+
 div[class^="card"]{
 background: rgba(28, 27, 27, 0.22);
 border-radius: 16px;
@@ -77,6 +81,10 @@ box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 div[class^="card-body"]{
 background: rgba(0, 0, 0, 0.1);
 color: azure;
+}
+
+div[class^="card-text"]{
+  overflow-wrap: break-word;
 }
 
 .padd {
@@ -98,7 +106,7 @@ div[class^="padd"]:hover{
   height: calc(100vh - 150px);
   width: 25%;
   border-radius: 0 0 0 16px;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: #001824;
   border: 1px solid rgba(44, 44, 44, 0.353);
   color: white;
 }
@@ -113,7 +121,7 @@ div[class^="padd"]:hover{
   height: calc(100vh - 150px);
   width: 25%;
   border-radius: 0 0 0 16px;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: #001824;
   border: 1px solid rgba(44, 44, 44, 0.353);
   color: white;
 }

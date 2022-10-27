@@ -7,12 +7,12 @@ export class EventCard {
     console.log(this.raw.description);
     return {
       image: "../../../assets/images/placeholderImage.jpg",
-      title: this.raw.ename,
-      date: new Date(this.raw.event_date).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}),
-      description: this.raw.event_description,
-      location: this.raw.event_location,
-      level: this.raw.level_requirement,
-      reward: this.raw.reward
+      title: this.raw.eName,
+      date: new Date(this.raw.eDate).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}),
+      description: this.raw.eDescription,
+      location: this.raw.eLocation,
+      level: this.raw.eLevel,
+      reward: this.raw.eReward
     };
   }
 

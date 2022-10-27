@@ -4,7 +4,7 @@ export const fetchEvent = async () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
   
   fetch(
-    '../../../php/events/getEvents.php', {
+    '../../../php/events/getAllEvents.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,11 +33,11 @@ export const fetchEvent = async () => {
             const modalLevel = document.getElementById("modal-level");
             const modalReward = document.getElementById("modal-reward");
             // add event listener to close-modal button to close modal
-            modalTitle.innerHTML = result.data[i].ename;
-            modalDescription.innerHTML = result.data[i].event_description;
-            modalDate.innerHTML = `<img class="locationIcon" src="../../../assets/images/date.png" alt="">` +  result.data[i].event_date;
-            modalLocation.innerHTML = `<img class="locationIcon" src="../../../assets/images/location.png" alt="">` +  result.data[i].event_location;
-            modalLevel.innerHTML = result.data[i].level_requirement + "-Tier";
+            modalTitle.innerHTML = result.data[i].title;
+            modalDescription.innerHTML = result.data[i].description;
+            modalDate.innerHTML = `<img class="locationIcon" src="../../../assets/images/date.png" alt="">` +  result.data[i].date;
+            modalLocation.innerHTML = `<img class="locationIcon" src="../../../assets/images/location.png" alt="">` +  result.data[i].location;
+            modalLevel.innerHTML = result.data[i].level + "-Tier";
             modalReward.innerHTML = result.data[i].reward + "g";
             const closeModal = document.getElementById("close-modal-event");
             closeModal.addEventListener("click", () => {
@@ -50,10 +50,9 @@ export const fetchEvent = async () => {
   })
 }
 
-// Make a fetch request to the server to get the reviews for the current event
 export const fetchReviews = async (eventId) => {
   fetch(
-    '../../../php/reviews/getReviews.php', {
+    '../../../php/events/getReviews.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

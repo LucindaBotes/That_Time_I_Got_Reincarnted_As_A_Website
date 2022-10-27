@@ -55,6 +55,8 @@ class Event extends Database
         ["i", $userId]
       );
 
+      var_dump($level);
+
       $location_id = $this->select(
         "SELECT uLocation FROM user WHERE id = ?", ["i", $userId]
       );
@@ -112,7 +114,7 @@ class Event extends Database
         'date' =>$date,
         'time' =>$time,
         'location' =>$location,
-        'level' =>$level,
+        'level' => $level[0]['uLevel'],
         'reward' =>$reward,
         'monsterId' =>$monsterId,
         'event_thumbnail' =>$thumbnail
@@ -127,11 +129,96 @@ class Event extends Database
   public function getAllEvents()
   {
     try{
-      $result = $this->select("SELECT * FROM events WHERE deleted = NULL", []);
-      return $result;
+      $result = $this->select("SELECT * FROM events ORDER BY eDate ASC", []);
+      
+      $events = array();
+      foreach($result as $event){
+        $events[] = $this->getEvent($event['id']);
+      }
+      return $events;
+      
     }
     catch(Exception $e){
       throw new Exception('Error getting events', 500);
+    }
+  }
+
+  public function getEvent($id)
+  {
+    try{
+        // get the location from events table
+        $event = $this->select(
+          "SELECT * FROM events WHERE id = ?",
+          ["i", $id]
+        );
+
+        // get the galleryId from the thumbnail_gallery table
+        $galleryId = $this->select(
+          "SELECT galleryID FROM thumbnail_gallery WHERE externID = ?",
+          ["i", $id]
+        );
+        
+        // get the image path from the gallery table
+        $imagePath = $this->select(
+          "SELECT imagePath FROM gallery WHERE id = ?",
+          ["i", $galleryId[0]['galleryID']]
+        );
+
+        // get the city and town from the location table
+        $location = $this->select(
+          "SELECT cID, tID FROM location WHERE id = ?",
+          ["i", $event[0]['eLocation']]
+        );
+
+        // get the city name from the city table
+        $city = $this->select(
+          "SELECT wName FROM world WHERE id = ?",
+          ["i", $location[0]['cID']]
+        );
+
+        // get the town name from the town table
+        $town = $this->select(
+          "SELECT tName FROM town WHERE id = ?",
+          ["i", $location[0]['tID']]
+        );
+
+        // get the monster id from the event_monster table
+        $monsterId = $this->select(
+          "SELECT mID FROM event_monster WHERE eID = ?",
+          ["i", $id]
+        );
+
+        // get the monster name from the monsters table
+        $monsterName = $this->select(
+          "SELECT mName FROM monsters WHERE id = ?",
+          ["i", $monsterId[0]['mID']]
+        );
+
+        // get the event level from the level table
+        $level = $this->select(
+          "SELECT Level FROM level WHERE id = ?",
+          ["i", $event[0]['eLevel']]
+        );
+
+        // fromat the data to be returned
+        $event = array(
+          'id' => $id,
+          'title' => $event[0]['eName'],
+          'description' => $event[0]['eDescription'],
+          'date' => $event[0]['eDate'],
+          'time' => $event[0]['eTime'],
+          'location' => $city[0]['wName'] . ', ' . $town[0]['tName'],
+          'level' => $level[0]['Level'],
+          'reward' => $event[0]['eReward'],
+          'monster' => $monsterName[0]['mName'],
+          'event_thumbnail' => $imagePath[0]['imagePath']
+        );
+
+        return $event;
+        
+    }
+    catch(Exception $e){
+      throw new Exception('Error getting event', 500);
     }
   }
 
@@ -141,7 +228,7 @@ class Event extends Database
       $eventList = $this->select("SELECT * FROM user_event WHERE uID = ?", ["i", $id]);
       $events = [];
       foreach($eventList as $event){
-          $events[] = $this->select("SELECT * FROM events WHERE id = ? AND deleted = NULL", ["i", $event['eID']]);
+          $events[] = $this->select("SELECT * FROM events WHERE id = ?", ["i", $event['eID']]);
       }
       return $events;
     }
@@ -169,7 +256,7 @@ class Event extends Database
 
       $eventShown = [];
       foreach($events as $event){
-        $eventShown[] = $this->select("SELECT * FROM events WHERE id = ? AND deleted = NULL", ["i", $event[0]['eID']]);
+        $eventShown[] = $this->select("SELECT * FROM events WHERE id = ?", ["i", $event[0]['eID']]);
       }
 
       return $eventShown;
@@ -327,20 +414,6 @@ class Event extends Database
     }
     catch(Exception $e){
       throw new Exception('Error deleting rating', 500);
-    }
-  }
-
-  public function getEvent($id) {
-
-    try {
-      $event = $this->select(
-        "SELECT * FROM events WHERE id = ?",
-        ["i", $id]
-      );
-
-      return $event;
-    } catch (Exception $e) {
-      throw new Exception('Error getting event', 500);
     }
   }
 

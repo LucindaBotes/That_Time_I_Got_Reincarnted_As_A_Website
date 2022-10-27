@@ -67,9 +67,7 @@ class EventController extends Controller
     $extension = pathinfo($_FILES['eventImage']['name'], PATHINFO_EXTENSION);
     $new_name = time() . '.' . $extension;
     move_uploaded_file($_FILES['eventImage']['tmp_name'], '../../gallery/' . $new_name);
-    $thumbnail = array(
-      'image_source'		=>	'../../gallery/' . $new_name
-    );
+    $thumbnail = '../../../gallery/' . $new_name;
     
     $name = $_POST['title'];
     $description = $_POST['description'];
@@ -393,10 +391,8 @@ class EventController extends Controller
       $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
       $new_name = time() . '.' . $extension;
       move_uploaded_file($_FILES['image']['tmp_name'], '../../gallery/' . $new_name);
-      $data = array(
-        'image_source'		=>	'../../gallery/' . $new_name
+      $data = '../../../gallery/' . $new_name;
         //"../../../gallery/"
-      );
 
       $eventId = $_POST['eventId'];
 
@@ -426,6 +422,32 @@ class EventController extends Controller
 
       $instance = Event::instance();
       $event = $instance->deleteEvent($body);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
+
+  public function getEvent($body) {
+    try {
+      $errorMessages = array();
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $eventId = $body['eventId'];
+      
+      $instance = Event::instance();
+      $event = $instance->getEvent($eventId);
       $this->sendSuccess($event);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {

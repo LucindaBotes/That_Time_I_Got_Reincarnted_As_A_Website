@@ -1,8 +1,8 @@
 @import url(constants.css);
 
 button.button {
-  background: var(--blue);
-  color: #fff;
+  background: var(--yellow);
+  color: var(--black);
   box-shadow: 10px 10px 0 rgba(0,0,0,.5);
   display: inline-block;
   padding: .3em 1.5em;
@@ -15,7 +15,7 @@ button.button {
 }
 
 button.button:hover {
-  background: var(--green);
+  background: var(--red);
 }
 
 button.parallelogram{
