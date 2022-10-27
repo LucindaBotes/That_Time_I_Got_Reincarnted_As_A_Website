@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Oct 17, 2022 at 10:42 AM
--- Server version: 8.0.30-0ubuntu0.20.04.2
--- PHP Version: 7.4.3
+-- Host: 127.0.0.1
+-- Generation Time: Oct 27, 2022 at 01:49 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,182 +24,204 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `a`
+-- Table structure for table `attendance`
 --
 
 CREATE TABLE `attendance` (
-  `id` int NOT NULL,
-  `uID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `uID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Events`
+-- Table structure for table `events`
 --
 
 CREATE TABLE `events` (
-  `id` int NOT NULL,
-  `eName` varchar(100) NOT NULL,
-  `eDescription` varchar(265) NOT NULL,
+  `id` int(11) NOT NULL,
+  `eName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eDescription` varchar(265) COLLATE utf8mb4_unicode_ci NOT NULL,
   `eDate` date NOT NULL,
   `eTime` time NOT NULL,
-  `eLocation` int NOT NULL,
-  `eLevel` int NOT NULL,
+  `eLocation` int(11) NOT NULL,
+  `eLevel` int(11) NOT NULL,
   `eReward` double NOT NULL,
-  `eThumbnail` int NOT NULL,
-  `eGallery` int NOT NULL,
-  `eRatings` int NOT NULL,
-  `eReviews` int NOT NULL
+  `eThumbnail` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `eName`, `eDescription`, `eDate`, `eTime`, `eLocation`, `eLevel`, `eReward`, `eThumbnail`, `deleted`) VALUES
+(45, 'Epic Cat Hunt', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-27', '12:40:00', 29, 8, 1, 18, NULL),
+(46, 'Spider Extermination', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-28', '13:27:00', 29, 1, 2, 19, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Gallery`
+-- Table structure for table `event_gallery`
 --
 
 CREATE TABLE `event_gallery` (
-  `id` int NOT NULL,
-  `galleryID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `galleryID` int(11) NOT NULL,
+  `externID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Level`
+-- Table structure for table `event_level`
 --
 
 CREATE TABLE `event_level` (
-  `id` int NOT NULL,
-  `levelID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `levelID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_List`
+-- Table structure for table `event_list`
 --
 
 CREATE TABLE `event_list` (
-  `id` int NOT NULL,
-  `listID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `listID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Location`
+-- Table structure for table `event_location`
 --
 
 CREATE TABLE `event_location` (
-  `id` int NOT NULL,
-  `eID` int NOT NULL,
-  `locationID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `eID` int(11) NOT NULL,
+  `locationID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Monster`
+-- Table structure for table `event_monster`
 --
 
 CREATE TABLE `event_monster` (
-  `id` int NOT NULL,
-  `l_mID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `mID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `event_monster`
+--
+
+INSERT INTO `event_monster` (`id`, `mID`, `eID`) VALUES
+(9, 131, 45),
+(10, 140, 46);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Ratings`
+-- Table structure for table `event_ratings`
 --
 
 CREATE TABLE `event_ratings` (
-  `id` int NOT NULL,
-  `ratingID` int NOT NULL,
-  `eID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `ratingID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Event_Reviews`
+-- Table structure for table `event_reviews`
 --
 
 CREATE TABLE `event_reviews` (
-  `id` int NOT NULL,
-  `reviewID` int NOT NULL,
-  `eID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `reviewID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Gallery`
+-- Table structure for table `gallery`
 --
 
 CREATE TABLE `gallery` (
-  `id` int NOT NULL,
-  `imagePath` varchar(1000) NOT NULL
+  `id` int(11) NOT NULL,
+  `imagePath` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `imagePath`) VALUES
+(33, '../../../gallery/1666867266.png'),
+(34, '../../../gallery/1666870063.png');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Groups`
+-- Table structure for table `groups`
 --
 
 CREATE TABLE `groups` (
-  `id` int NOT NULL,
-  `gName` varchar(100) NOT NULL
+  `id` int(11) NOT NULL,
+  `gName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Group_Messages`
+-- Table structure for table `group_messages`
 --
 
 CREATE TABLE `group_messages` (
-  `id` int NOT NULL,
-  `messageID` int NOT NULL,
-  `uID` int NOT NULL,
-  `gID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `messageID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL,
+  `gID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Group_users`
+-- Table structure for table `group_users`
 --
 
 CREATE TABLE `group_users` (
-  `id` int NOT NULL,
-  `gID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `gID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Level`
+-- Table structure for table `level`
 --
 
 CREATE TABLE `level` (
-  `id` int NOT NULL,
-  `Level` varchar(10) NOT NULL
+  `id` int(11) NOT NULL,
+  `Level` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `Level`
+-- Dumping data for table `level`
 --
 
 INSERT INTO `level` (`id`, `Level`) VALUES
@@ -216,64 +237,71 @@ INSERT INTO `level` (`id`, `Level`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Level_Monsters`
+-- Table structure for table `level_monsters`
 --
 
 CREATE TABLE `level_monsters` (
-  `id` int NOT NULL,
-  `monsterID` int NOT NULL,
-  `levelID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `monsterID` int(11) NOT NULL,
+  `levelID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Lists`
+-- Table structure for table `lists`
 --
 
 CREATE TABLE `lists` (
-  `id` int NOT NULL,
-  `lName` varchar(100) NOT NULL
+  `id` int(11) NOT NULL,
+  `lName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Location`
+-- Table structure for table `location`
 --
 
 CREATE TABLE `location` (
-  `id` int NOT NULL,
-  `cID` int NOT NULL,
-  `tID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `cID` int(11) NOT NULL,
+  `tID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `location`
+--
+
+INSERT INTO `location` (`id`, `cID`, `tID`) VALUES
+(29, 22, 7);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Messages`
+-- Table structure for table `messages`
 --
 
 CREATE TABLE `messages` (
-  `id` int NOT NULL,
-  `mText` varchar(1000) NOT NULL,
+  `id` int(11) NOT NULL,
+  `mText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Monsters`
+-- Table structure for table `monsters`
 --
 
 CREATE TABLE `monsters` (
-  `id` int NOT NULL,
-  `mName` varchar(100) NOT NULL,
-  `mLevel` varchar(100) NOT NULL
+  `id` int(11) NOT NULL,
+  `mName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mLevel` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `Monsters`
+-- Dumping data for table `monsters`
 --
 
 INSERT INTO `monsters` (`id`, `mName`, `mLevel`) VALUES
@@ -423,28 +451,41 @@ INSERT INTO `monsters` (`id`, `mName`, `mLevel`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `personal_messages`
+--
+
+CREATE TABLE `personal_messages` (
+  `id` int(11) NOT NULL,
+  `senderID` int(11) NOT NULL,
+  `receiverID` int(11) NOT NULL,
+  `messageID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `profile_gallery`
 --
 
 CREATE TABLE `profile_gallery` (
-  `id` int NOT NULL,
-  `galleryID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `galleryID` int(11) NOT NULL,
+  `externID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Ratings`
+-- Table structure for table `ratings`
 --
 
 CREATE TABLE `ratings` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `rating` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `Ratings`
+-- Dumping data for table `ratings`
 --
 
 INSERT INTO `ratings` (`id`, `rating`) VALUES
@@ -463,39 +504,47 @@ INSERT INTO `ratings` (`id`, `rating`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Reviews`
+-- Table structure for table `reviews`
 --
 
 CREATE TABLE `reviews` (
-  `id` int NOT NULL,
-  `rText` varchar(1000) NOT NULL
+  `id` int(11) NOT NULL,
+  `rText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Thumbnail_Gallery`
+-- Table structure for table `thumbnail_gallery`
 --
 
 CREATE TABLE `thumbnail_gallery` (
-  `id` int NOT NULL,
-  `galleryID` int NOT NULL,
-  `tID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `galleryID` int(11) NOT NULL,
+  `externID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `thumbnail_gallery`
+--
+
+INSERT INTO `thumbnail_gallery` (`id`, `galleryID`, `externID`) VALUES
+(18, 33, 45),
+(19, 34, 46);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Town`
+-- Table structure for table `town`
 --
 
 CREATE TABLE `town` (
-  `id` int NOT NULL,
-  `tName` varchar(100) NOT NULL
+  `id` int(11) NOT NULL,
+  `tName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `Town`
+-- Dumping data for table `town`
 --
 
 INSERT INTO `town` (`id`, `tName`) VALUES
@@ -607,93 +656,93 @@ INSERT INTO `town` (`id`, `tName`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int NOT NULL,
-  `uName` varchar(100) NOT NULL,
-  `uPass` varchar(265) NOT NULL,
-  `uSalt` varchar(6) NOT NULL,
-  `uLevel` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `uName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uPass` varchar(265) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uSalt` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uLevel` int(11) NOT NULL,
   `uGold` double NOT NULL,
-  `uProfile` int NOT NULL,
-  `uLocation` int NOT NULL
+  `uProfile` int(11) NOT NULL,
+  `uLocation` int(11) NOT NULL,
+  `deleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `uName`, `uPass`, `uSalt`, `uLevel`, `uGold`, `uProfile`, `uLocation`) VALUES
-(1, 'dtwinbrow0', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 6, 995.2, 8, 38),
-(2, 'cnoye1', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 6, 139.72, 3, 96),
-(3, 'bdefrain2', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 4, 62.42, 9, 4),
-(4, 'mriglesford3', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 3, 92.64, 2, 95),
-(5, 'ncortez4', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 5, 585.34, 5, 64),
-(6, 'nmenault5', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 7, 995.35, 4, 12),
-(7, 'jchattell6', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 7, 804.7, 6, 29),
-(8, 'ssenescall7', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 4, 237.63, 10, 36),
-(9, 'saylwin8', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 4, 52.65, 7, 47),
-(10, 'cclausenthue9', '1a7d8a297d27da26806a242253747eb89335a487b017889173cbe73e33ca2ecd', 'abcdef', 5, 458.43, 1, 73);
+INSERT INTO `user` (`id`, `uName`, `uPass`, `uSalt`, `uLevel`, `uGold`, `uProfile`, `uLocation`, `deleted`) VALUES
+(17, 'Admin', 'ff391134a6b25f790e97f86d7393d8a3aaec6a780d94ffd2e764880024e3bbae', 'WGmpin', 8, 0, 1, 29, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_Event`
+-- Table structure for table `user_event`
 --
 
 CREATE TABLE `user_event` (
-  `id` int NOT NULL,
-  `uID` int NOT NULL,
-  `eID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `uID` int(11) NOT NULL,
+  `eID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_event`
+--
+
+INSERT INTO `user_event` (`id`, `uID`, `eID`) VALUES
+(39, 17, 45),
+(40, 17, 46);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `User_Level`
+-- Table structure for table `user_level`
 --
 
 CREATE TABLE `user_level` (
-  `id` int NOT NULL,
-  `levelID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `levelID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `User_Lists`
+-- Table structure for table `user_lists`
 --
 
 CREATE TABLE `user_lists` (
-  `id` int NOT NULL,
-  `listID` int NOT NULL,
-  `uID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `listID` int(11) NOT NULL,
+  `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `User_Location`
+-- Table structure for table `user_location`
 --
 
 CREATE TABLE `user_location` (
-  `id` int NOT NULL,
-  `uID` int NOT NULL,
-  `locationID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `uID` int(11) NOT NULL,
+  `locationID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `World`
+-- Table structure for table `world`
 --
 
 CREATE TABLE `world` (
-  `id` int NOT NULL,
-  `wName` varchar(100) NOT NULL
+  `id` int(11) NOT NULL,
+  `wName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `World`
+-- Dumping data for table `world`
 --
 
 INSERT INTO `world` (`id`, `wName`) VALUES
@@ -753,152 +802,164 @@ INSERT INTO `world` (`id`, `wName`) VALUES
 --
 
 --
--- Indexes for table `Attendance`
+-- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Events`
+-- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_Gallery`
+-- Indexes for table `event_gallery`
 --
 ALTER TABLE `event_gallery`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_Level`
+-- Indexes for table `event_level`
 --
 ALTER TABLE `event_level`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_List`
+-- Indexes for table `event_list`
 --
 ALTER TABLE `event_list`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_Location`
+-- Indexes for table `event_location`
 --
 ALTER TABLE `event_location`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_Ratings`
+-- Indexes for table `event_monster`
+--
+ALTER TABLE `event_monster`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `event_ratings`
 --
 ALTER TABLE `event_ratings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Event_Reviews`
+-- Indexes for table `event_reviews`
 --
 ALTER TABLE `event_reviews`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Gallery`
+-- Indexes for table `gallery`
 --
 ALTER TABLE `gallery`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Groups`
+-- Indexes for table `groups`
 --
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Group_Messages`
+-- Indexes for table `group_messages`
 --
 ALTER TABLE `group_messages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Group_Users`
+-- Indexes for table `group_users`
 --
 ALTER TABLE `group_users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Level`
+-- Indexes for table `level`
 --
 ALTER TABLE `level`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `level_Monsters`
+-- Indexes for table `level_monsters`
 --
 ALTER TABLE `level_monsters`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Lists`
+-- Indexes for table `lists`
 --
 ALTER TABLE `lists`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Location`
+-- Indexes for table `location`
 --
 ALTER TABLE `location`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Messages`
+-- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Monsters`
+-- Indexes for table `monsters`
 --
 ALTER TABLE `monsters`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Profile_Gallery`
+-- Indexes for table `personal_messages`
+--
+ALTER TABLE `personal_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `profile_gallery`
 --
 ALTER TABLE `profile_gallery`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Ratings`
+-- Indexes for table `ratings`
 --
 ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Reviews`
+-- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Thumbnail_Gallery`
+-- Indexes for table `thumbnail_gallery`
 --
 ALTER TABLE `thumbnail_gallery`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Town`
+-- Indexes for table `town`
 --
 ALTER TABLE `town`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `User`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uName` (`uName`);
 
 --
--- Indexes for table `user_Event`
+-- Indexes for table `user_event`
 --
 ALTER TABLE `user_event`
   ADD PRIMARY KEY (`id`);
@@ -922,7 +983,7 @@ ALTER TABLE `user_location`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `World`
+-- Indexes for table `world`
 --
 ALTER TABLE `world`
   ADD PRIMARY KEY (`id`);
@@ -932,178 +993,190 @@ ALTER TABLE `world`
 --
 
 --
--- AUTO_INCREMENT for table `Attendance`
+-- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Events`
+-- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
--- AUTO_INCREMENT for table `Event_Gallery`
+-- AUTO_INCREMENT for table `event_gallery`
 --
 ALTER TABLE `event_gallery`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Event_level`
+-- AUTO_INCREMENT for table `event_level`
 --
 ALTER TABLE `event_level`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Event_List`
+-- AUTO_INCREMENT for table `event_list`
 --
 ALTER TABLE `event_list`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Event_location`
+-- AUTO_INCREMENT for table `event_location`
 --
 ALTER TABLE `event_location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Event_ratings`
+-- AUTO_INCREMENT for table `event_monster`
+--
+ALTER TABLE `event_monster`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `event_ratings`
 --
 ALTER TABLE `event_ratings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Event_reviews`
+-- AUTO_INCREMENT for table `event_reviews`
 --
 ALTER TABLE `event_reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `Gallery`
+-- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `Groups`
+-- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `Group_messages`
+-- AUTO_INCREMENT for table `group_messages`
 --
 ALTER TABLE `group_messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `group_users`
 --
 ALTER TABLE `group_users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `level`
 --
 ALTER TABLE `level`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `level_monsters`
 --
 ALTER TABLE `level_monsters`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Lists`
+-- AUTO_INCREMENT for table `lists`
 --
 ALTER TABLE `lists`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `monsters`
 --
 ALTER TABLE `monsters`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+
+--
+-- AUTO_INCREMENT for table `personal_messages`
+--
+ALTER TABLE `personal_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `profile_gallery`
 --
 ALTER TABLE `profile_gallery`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `thumbnail_gallery`
 --
 ALTER TABLE `thumbnail_gallery`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `town`
 --
 ALTER TABLE `town`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_event`
 --
 ALTER TABLE `user_event`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT for table `user_Level`
+-- AUTO_INCREMENT for table `user_level`
 --
 ALTER TABLE `user_level`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_lists`
 --
 ALTER TABLE `user_lists`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_location`
 --
 ALTER TABLE `user_location`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `world`
 --
 ALTER TABLE `world`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
