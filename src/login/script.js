@@ -20,7 +20,7 @@ export const login = async () => {
       if (res.status === 200) {
         res.json().then((data) => {
             sessionStorage.setItem('user', JSON.stringify(data.data));
-            window.location.href = "../feed/public/";
+            window.location.href = "../feed/private/";
         });
       }
     })

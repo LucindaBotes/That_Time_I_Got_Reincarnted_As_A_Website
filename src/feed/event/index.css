@@ -10,21 +10,133 @@ body {
 }
 
 input[class='form-control']{
+  border-radius: 16px;
+  margin-top: 32px;
+  background-color: #222;
+  border: 1px solid #333;
+  color: white;
+  margin-bottom: 8px;
+  padding: 8px 4px;
+  position: relative;
+  width: 100%;
+  z-index: 3;
+}
+
+input[class='form-control']:focus{
+  border-radius: 16px;
+  box-shadow: 0 0 6px rgba(0, 200, 222, 0.25);
   background-color: #222;
   border: 1px solid #333;
   color: white;
 }
 
+label{
+  position: absolute;
+  opacity: 0;
+  transform: translateY(-20px);
+  z-index: -1;
+}
+
+input:focus + label{
+  animation: bottom 0.3s ease forwards;
+  color: #04889f;
+} 
+
+textarea[class='form-control']:focus + label{
+  animation: bottom 0.3s ease forwards;
+  color: #04889f;
+} 
+
+select:focus + label{
+  animation: bottom 0.3s ease forwards;
+  color: #04889f;
+} 
+
+@keyframes bottom {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-80px);
+  }
+}
+
 textarea[class='form-control']{
+  margin-top: 32px;
+  border-radius: 16px;
   background-color: #222;
   color: white;
   border: 1px solid #333;
+}
+
+textarea[class='form-control']:focus{
+  border-radius: 16px;
+  background-color: #222;
+  color: white;
+  border: 1px solid #333;
+}
+
+select[class='dropdown-menu']{
+  all: unset;
+  margin-top: 32px;
+  display: block;
+  padding: 6px 12px;
+  width: 98%;
+  border-radius: 16px;
+  background-color: #222;
+  color: rgb(139, 139, 139);
+  border: 1px solid #333;
+}
+
+input[type=file]::file-selector-button{
+  border-radius: 16px;
+  background-color: #222;
+  color: white;
+  border: 1px solid #333;
+}
+
+input[type=file]::file-selector-button:focus{
+  border-radius: 16px;
+  background-color: #222;
+  color: black;
+  border: 1px solid #333;
+}
+
+select[class='dropdown-menu']:focus{
+  all: unset;
+  display: block;
+  margin-top: 32px;
+  padding: 6px 12px;
+  width: 98%;
+  border-radius: 16px;
+  background-color: rgb(44, 44, 44);
+  border: 1px solid #333;
+}
+
+option{
+  border: none;
+}
+
+option:checked{
+  color:var(--green);
+  background-color: var(--black);
+}
+
+option[class^='dropdown-item']{
+  width: 50%;
+  background-color: #222;
+  color: white;
+  padding: 6px;
+}
+
+option:hover {
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 16px;
 }
 
 label {
   color: white;
-}
-
-option {
-  color: black;
 }

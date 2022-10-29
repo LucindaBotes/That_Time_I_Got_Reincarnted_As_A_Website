@@ -64,7 +64,7 @@ export const getMonsters = async () => {
     const monsters = responseData.data;
     let monsterList = document.getElementById('monsterList');
     monsters.forEach(monster => {
-      const monsterItem = `<option value='${monster.id}'> ${monster.mName} </option>`;
+      const monsterItem = `<option class='dropdown-item' value='${monster.id}'> ${monster.mName} </option>`;
       monsterList.innerHTML += monsterItem;
     });
   });

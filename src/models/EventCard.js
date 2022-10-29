@@ -22,22 +22,19 @@ export class EventCard {
     const {id, image, title, description, date, time, location, level, reward } =
       this.clean();
     return `
-      <div id="eventCard-${id}" class="padd col-4 eventCard" data-toggle="modal" data-target="#exampleModal">
-        <div class="card-deck">
-          <div class="m-2">
-            <img src="${image}" class="card-img-top" alt="...">
-            <div class="card-body p-2">
-              <h5 class="card-title">${title}</h5>
-              <p class="card-text m-0">${description}</p>
-              <div class="flex-row d-flex justify-content-between">
-                <p class="card-text m-0"><small class="text-muted">${date} @${time}</small></p>
-                <p class="card-text m-0"><small class="text-muted">${location}</small></p>
+      <div id="eventCard-${id}" class="padd col-4 eventCard" data-toggle="modal" data-target="#exampleModal" style="max-height: 300px">
+        <div class="card-deck" style="background-image: url('${image}'); background-size: cover; background-repeat: no-repeat; height: 300px; position: relative" >
+          <div class="event-card">
+              <h5 class="title">${title}</h5>
+              <small class="date-time">${date} @${time}</small>
+              <div class="tags">
+                <small class="tag gold">${reward} gold</small>
+                <small class="tag level">${level}-Tier</small>
               </div>
-              <div class="flex-row d-flex justify-content-between">
-                <p class="card-text m-0"><small class="text-muted">${level}-Tier</small></p>
-                <p class="card-text m-0"><small class="text-muted">${reward} gold</small></p>
+              <div class="d-flex ml-auto">
+                <img class="pin" src="../../../assets/images/location.png" alt="pin">
+                <p class="place"><small class="text-muted">${location}</small></p>
               </div>
-            </div>
           </div>
         </div>
       </div>
