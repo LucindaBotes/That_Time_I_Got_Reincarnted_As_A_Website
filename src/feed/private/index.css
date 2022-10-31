@@ -110,11 +110,12 @@ div[class^="dropdown"] a{
   display: flex;
   top: 0;
   justify-content: center;
-  align-items: center;
+  margin-top: 70px;
   position: absolute;
-  width: 100%;
+  padding: 2.5%;
+  width: 50%;
   height: 100%;
   font-size: 2rem;
-  background-color: var(--blue);
+  background-color: rgba(0, 0, 0, 0.95);
   color: var(--green);
 }

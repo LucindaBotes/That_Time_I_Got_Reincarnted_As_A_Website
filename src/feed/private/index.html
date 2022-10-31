@@ -74,7 +74,7 @@
         <img id="profile-pic" class="rounded-image" src="../../../gallery/profile.jpg" alt="profile" />
       </div>
     </article>
-    <section class="row">
+    <section id="section" class="row">
       <main id="content" class="m-2 row"></main>
       <div id="modal">
         <div class="modal-content">
@@ -200,9 +200,12 @@
       </div>
     </footer>
 
-    <div class="hidden" id="addEvent">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="offset-3 hidden" id="addEvent">
+      <div class="modalContent">
+        <div id="closeModal">
+          <img class="coins" src="../../../assets/images/close.png" alt="">
+        </div>
+        <div class="">
           <form id="event-form" method="post">
             <div class="form-group">
               <input
@@ -272,7 +275,7 @@
                 Create Quest
               </button>
               <button type="reset" class="button parallelogram">
-                Let's not jump to our deaths
+                Cancel
               </button>
             </div>
           </form>

@@ -5,10 +5,6 @@ article {
   background-color: black;
 }
 
-body {
-  background-color: black;
-}
-
 input[class='form-control']{
   border-radius: 16px;
   margin-top: 32px;
@@ -33,23 +29,24 @@ input[class='form-control']:focus{
 label{
   position: absolute;
   opacity: 0;
-  transform: translateY(-20px);
-  z-index: -1;
+  transform: translateY(-15px);
+  z-index: 2;
+  font-size: 0.5em;
 }
 
 input:focus + label{
   animation: bottom 0.3s ease forwards;
-  color: var(--blue);
+  color: var(--yellow);
 } 
 
 textarea[class='form-control']:focus + label{
-  animation: bottom 0.3s ease forwards;
-  color: var(--blue);
+  animation: lift 0.3s ease forwards;
+  color: var(--yellow);
 } 
 
 select:focus + label{
   animation: bottom 0.3s ease forwards;
-  color: var(--blue);
+  color: var(--yellow);
 } 
 
 @keyframes bottom {
@@ -62,12 +59,23 @@ select:focus + label{
   }
 }
 
+@keyframes lift {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-110px);
+  }
+}
+
 textarea[class='form-control']{
   margin-top: 32px;
   border-radius: 16px;
   background-color: #222;
   color: white;
   border: 1px solid #333;
+  z-index: 3;
 }
 
 textarea[class='form-control']:focus{
@@ -88,6 +96,7 @@ select[class='dropdown-menu']{
   color: rgb(139, 139, 139);
   border: 1px solid #333;
   font-size: 0.5em;
+  z-index: 3;
 }
 
 input[type=file]::file-selector-button{
@@ -139,6 +148,6 @@ option:hover {
   border-radius: 16px;
 }
 
-label {
-  color: white;
+.modalContent {
+  width: 100%;
 }

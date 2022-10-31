@@ -117,6 +117,15 @@ addButton.addEventListener("click", (e) => {
           const myModal = document.getElementById('addEvent');
           myModal.classList.remove('hidden');
           myModal.classList.add('customModal');
+          const section = document.getElementById('section');
+          section.classList.add('blur');
+          section.addEventListener('click', (e) => {
+            if (e.target.id === 'section') {
+              myModal.classList.add('hidden');
+              myModal.classList.remove('customModal');
+              section.classList.remove('blur');
+            }
+          });
         } else if (e.target.id === "list") {
           console.log("add list");
         }

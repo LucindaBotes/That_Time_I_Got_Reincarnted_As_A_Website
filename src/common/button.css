@@ -5,12 +5,10 @@ button.button {
   color: var(--black);
   box-shadow: 10px 10px 0 rgba(0,0,0,.5);
   display: inline-block;
-  padding: .3em 1.5em;
   text-decoration: none;
   width: 45%;
-  margin: 8px;
   cursor: pointer;
-  font-size: 0.7em;
+  font-size: 0.5em;
   border: none;
 }
 
@@ -19,7 +17,7 @@ button.button:hover {
 }
 
 button.parallelogram{
-  transform: skew(-20deg);
+  /* transform: skew(-20deg); */
 }
 
 span.skew-fix{
