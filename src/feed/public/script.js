@@ -1,4 +1,7 @@
 import { EventCard } from "../../models/EventCard.js";
+import { getReviews, reviewEvent } from "../event/review.js";
+import { getImages, uploadPicture } from "../event/gallery.js";
+
 export const fetchEvent = async () => {
   const content = document.getElementById("content");
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -36,6 +39,52 @@ export const fetchEvent = async () => {
               const modalLocation = document.getElementById("modal-location");
               const modalLevel = document.getElementById("modal-level");
               const modalReward = document.getElementById("modal-reward");
+              const reviewDropdown = document.getElementById("reviewDropdown");
+              const reviewBody = document.getElementById("review-body");
+              const reviewDD = document.getElementById("review-dd"); 
+              const reviewSubmit = document.getElementById("new-review");
+              const gallerySubmit = document.getElementById("gallery-submit");
+              const galleryDropdown = document.getElementById("galleryDropdown");
+              const galleryDD = document.getElementById("gallery-dd");
+              const galleryBody = document.getElementById("gallery-body");
+
+              gallerySubmit.onsubmit = (e) => {
+                e.preventDefault();
+                const file = document.getElementById('gallery-input')[0].files[0];
+                uploadPicture(file).then(() => {
+                  getImages(result.data[i].id);
+                });
+              }
+
+              galleryDropdown.addEventListener("click", () => {
+                galleryDD.innerHTML = '';
+                galleryBody.classList.toggle("hidden");
+                getImages(result.data[i].id).then((images) => {
+                  images.imagePaths.forEach((image) => {
+                    const imagePath = image.slice(9);
+                    const path = `../../../${imagePath}`;
+                    galleryDD.innerHTML += `<img class='gallery col-3' src="${path}">`;
+                  });
+                });
+              });
+
+              reviewSubmit.onsubmit = (e) => {
+                const newReview = document.getElementById("review-input").value;
+                e.preventDefault();
+                reviewEvent(result.data[i].id, newReview).then(() => {
+                  getReviews(result.data[i].id);
+                });
+              };
+              reviewDropdown.addEventListener("click", (e) => {
+                reviewDD.innerHTML = "";
+                reviewBody.classList.toggle("hidden");
+                e.preventDefault();
+                getReviews(result.data[i].id).then((reviews) => {
+                  reviews.forEach((review) => {
+                    reviewDD.innerHTML += `<a id="review-${review[0].id}" class="dropdown-item">${review[0].rText}</a>`;
+                  });
+                });
+              });
               // add event listener to close-modal button to close modal
               modalTitle.innerHTML = result.data[i].title;
               modalDescription.innerHTML = result.data[i].description;

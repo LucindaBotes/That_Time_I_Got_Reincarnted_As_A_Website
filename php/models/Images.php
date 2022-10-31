@@ -4,7 +4,7 @@ require_once 'Database.php';
 class Images extends Database
 {
 
-  public function uploadImage($data, $Id, $type)
+  public function uploadProfileImage($data, $Id, $type)
   {
     try{
       $table = $type . "_gallery";
@@ -27,6 +27,8 @@ class Images extends Database
           ["ii", $imageID[0]['id'], $Id]
         );
 
+        var_dump($imageID);
+
         return array(
           'imagePath' =>$data['image_source'],
           'externId' =>$Id,
@@ -42,6 +44,37 @@ class Images extends Database
     }
   }
 
+  public function uploadImage($data, $Id, $type)
+  {
+    try{
+      $table = $type . "_gallery";
+
+      $this->insert(
+        "INSERT INTO gallery (imagePath) VALUES (?)",
+        ["s", $data['image_source']]
+      );
+      $imageID = $this->select(
+        "SELECT id FROM gallery WHERE imagePath = ?",
+        ["s", $data['image_source']]
+      );
+      $this->insert(
+        "INSERT INTO $table (galleryID, externID) VALUES (?, ?)",
+        ["ii", $imageID[0]['id'], $Id]
+      );
+
+      var_dump($imageID);
+
+      return array(
+        'imagePath' =>$data['image_source'],
+        'externId' =>$Id,
+        'imageID' =>$imageID[0]['id']
+      );
+    }
+    catch(Exception $e){
+      throw new Exception('Error uploading image', 500);
+    }
+  }
+  
   public function getProfileImage($Id)
   {
     try{
@@ -74,27 +107,22 @@ class Images extends Database
   {
     try{
       $images = $this->select(
-        "SELECT * FROM event_gallery WHERE externID = ?",
+        "SELECT galleryID FROM event_gallery WHERE externID = ?",
         ["i", $Id]
       );
-
-      if($images){
-        $imagePath = array();
-        foreach($images as $image){
-          $imagePath = $this->select(
-            "SELECT imagePath FROM gallery WHERE id = ?",
-            ["i", $image['galleryID']]
-          );
-          array_push($imagePath, $imagePath[0]['imagePath']);
-        }
-        return array(
-          'imagePath' =>$imagePath,
-          'externId' =>$Id
+      
+      $imagePaths = array();
+      foreach($images as $image){
+        $imagePath = $this->select(
+          "SELECT imagePath FROM gallery WHERE id = ?",
+          ["i", $image['galleryID']]
         );
+        array_push($imagePaths, $imagePath[0]['imagePath']);
       }
-      else{
-        throw new Exception('Image does not exist', 500);
-      }
+
+      return array(
+        'imagePaths' =>$imagePaths,
+      );
     }
     catch(Exception $e){
       throw new Exception('Error getting image', 500);

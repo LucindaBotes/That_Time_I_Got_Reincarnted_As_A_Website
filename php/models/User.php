@@ -132,6 +132,10 @@ class User extends Database
 
   public function createGroup($groupName, $userId){
     try {
+      $group = $this->select("SELECT * FROM `groups` WHERE gName = ?", ["s", $groupName]);
+      if ($group) {
+        throw new Exception('Group already exists', 400);
+      }
       $this->insert("INSERT INTO `groups` (gName) VALUES (?)", ["s", $groupName]);
       $group = $this->select("SELECT * FROM `groups` WHERE gName = ?", ["s", $groupName])[0];
       $this->insert("INSERT INTO `group_users` (gID, uID) VALUES (?, ?)", ["ii", $group['id'], $userId]);
@@ -168,7 +172,6 @@ class User extends Database
       $groups = $this->select("SELECT * FROM `group_users` WHERE uID = ?", ["i", $userId]);
       $groupArray = array();
       foreach($groups as $group){
-        var_dump($group);
         $groupArray[] = $this->select("SELECT * FROM `groups` WHERE id = ?", ["i", $group['gID']])[0];
       }
       return $groupArray;

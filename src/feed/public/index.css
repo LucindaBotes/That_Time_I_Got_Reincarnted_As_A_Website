@@ -139,3 +139,16 @@ div[class^="dropdown"] a{
   height: 40px;
   width: 40px;
 }
+
+#gallery-dd {
+  width: 100%;
+  margin-left: 1%;
+}
+
+.gallery {
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  height: 100px;
+  overflow: scroll;
+}

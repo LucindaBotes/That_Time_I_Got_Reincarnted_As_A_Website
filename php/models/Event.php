@@ -240,23 +240,11 @@ class Event extends Database
   public function getGroupEvents($id)
   {
     try{
-      $groups = $this->select("SELECT gID FROM group_users WHERE uID = ?", ["i", $id]);
-
-      $users = [];
-      foreach($groups as $group){
-        $users[] = $this->select("SELECT uID FROM group_users WHERE gID = ?", ["i", $group['gID']]);
-      }
-      
-      $events = [];
-
-      foreach($users as $user){
-        $newUID = $user[0]['uID'];
-        $events[] = $this->select("SELECT eID FROM user_event WHERE uID = ?", ["i", $newUID]);
-      }
+      $events = $this->select("SELECT DISTINCT eID FROM group_users INNER JOIN user_event ON group_users.uID =  ? AND user_event.uID = ?", ["ii", $id, $id]);
 
       $result = array();
       foreach($events as $event){
-        $result[] = $this->getEvent($event[0]['eID']);
+        $result[] = $this->getEvent($event['eID']);
       }
       
       return $result;
@@ -296,15 +284,16 @@ class Event extends Database
 
   public function addReview($review, $userId, $eventId){
     try{
+
       $check = $this->select(
         "SELECT * FROM event_reviews WHERE uID = ? AND eID = ?",
         ["ii", $userId, $eventId]
       );
       
+      var_dump($check);
       if($check){
-        throw new Exception('You have already reviewed this event', 500);
+        throw new Exception('You have already reviewed this event', 400);
       }
-
       $this->insert(
         "INSERT INTO reviews (rText) VALUES (?)",
         ["s", $review]
@@ -402,6 +391,29 @@ class Event extends Database
     }
     catch(Exception $e){
       throw new Exception('Error deleting review', 500);
+    }
+  }
+
+  // get the reviews of the event
+  public function getReviews($eventId){
+    try{
+      $reviews = $this->select(
+        "SELECT * FROM event_reviews WHERE eID = ?",
+        ["i", $eventId]
+      );
+
+      $result = array();
+      foreach($reviews as $review){
+        $result[] = $this->select(
+          "SELECT * FROM reviews WHERE id = ?",
+          ["i", $review['reviewID']]
+        );
+      }
+
+      return $result;
+    }
+    catch(Exception $e){
+      throw new Exception('Error getting reviews', 500);
     }
   }
 

@@ -470,4 +470,31 @@ class EventController extends Controller
       }
     }
   }
+
+  // get the reviews for an event
+  public function getReviews($body) {
+    try {
+      $errorMessages = array();
+      if (!isset($body['eventId']) || $body['eventId'] === '') {
+        array_push($errorMessages, 'Event is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $eventId = $body['eventId'];
+      
+      $instance = Event::instance();
+      $event = $instance->getReviews($eventId);
+      $this->sendSuccess($event);
+    } catch (Exception $e) {
+      if ($e->getCode() === 400) {
+        $this->sendBadRequest($e->getMessage());
+      } else {
+        $this->sendInternalServerError($e->getMessage());
+      }
+    }
+  }
 }

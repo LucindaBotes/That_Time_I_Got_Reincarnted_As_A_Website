@@ -91,7 +91,7 @@ class UserController extends Controller
       array_push($errorMessages, 'Group needs a name');
     }
 
-    if (!isset($body["userId"]) || $body["userID"] === '') {
+    if (!isset($body["userId"]) || $body["userId"] === '') {
       array_push($errorMessages, 'You are not logged in');
     }
 

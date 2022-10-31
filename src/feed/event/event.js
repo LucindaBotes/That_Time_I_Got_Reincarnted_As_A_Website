@@ -5,7 +5,6 @@ export const createEvent = async (file) => {
   const date = document.getElementById('eventDate').value;
   const monster = document.getElementById('monsterList').value;
   const reward = document.getElementById('eventReward').value;
-  console.log(monster);
   const newDate = new Date(date).toISOString().split('T')[0];
   const time = document.getElementById('eventTime').value;
       if(!['image/jpeg', 'image/png'].includes(file.type))

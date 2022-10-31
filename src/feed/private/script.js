@@ -21,6 +21,8 @@ export const fetchEvent = async () => {
         if (result.data.length === 0) {
           content.innerHTML = `<h1 class="noEvents">No quests to display</h1>`;
         } else {
+          // add result to session storage
+          sessionStorage.setItem('events', JSON.stringify(result.data));
           result.data?.map(event => {
             content.innerHTML += new EventCard(event).render();
           });
@@ -36,6 +38,13 @@ export const fetchEvent = async () => {
               const modalLocation = document.getElementById("modal-location");
               const modalLevel = document.getElementById("modal-level");
               const modalReward = document.getElementById("modal-reward");
+              const reviewDD = document.getElementById("reviewDropdown");
+              console.log('blah :>> ');
+              console.log(reviewDD);
+              reviewDD.addEventListener("click", () => {
+                console.log(`reviewDD clicked ${result.data[i].id}`);
+              });
+
               // add event listener to close-modal button to close modal
               modalTitle.innerHTML = result.data[i].title;
               modalDescription.innerHTML = result.data[i].description;

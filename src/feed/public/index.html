@@ -110,14 +110,19 @@
               <span class="skew-fix" id="login">Count Me In</button>  
             </button>
             <div class="dropdown show">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="btn btn-secondary" id="reviewDropdown">
                 Reviews
               </a>
-            
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+              <div class="hidden" id="review-body">
+                <div id="review-dd">
+                </div>
+                <div>
+                  <form id="new-review">
+                    <input id="review-input" type="text" placeholder="Write a review" />
+                    <button class="button parallelogram" id="review-submit">
+                      <span class="skew-fix">Submit</span>
+                  </form>
+                </div>
               </div>
             </div>
             <div class="dropdown show">
@@ -132,14 +137,20 @@
               </div>
             </div>
             <div class="dropdown show">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="btn btn-secondary" id="galleryDropdown">
                 Gallery
               </a>
-            
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+              <div id="gallery-body"class="hidden" >
+                <div id="gallery-dd" class="row">
+                </div>
+                <div>
+                  <form id="gallery-submit">
+                    <input id="gallery-input" type="file" />
+                    <button class="button parallelogram">
+                      <span class="skew-fix">Submit</span>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -160,7 +171,7 @@
               <p id="profileModal-level"></p>
               <p id="profileModal-gold"></p>
             </div>
-            <p>Edit Profile<img class="coins" src="../../../assets/images/pencil.png"/></p>
+            <p>Edit Profile<img class="coins" src="../../../assets/images/pencil.png" alt="..."/></p>
             <div class="dropdown show">
               <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 My Events
