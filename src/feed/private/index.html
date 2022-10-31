@@ -22,23 +22,28 @@
       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
       crossorigin="anonymous"
     />
-    <!-- <link rel="stylesheet" href="../../splash/index.css"> -->
-    <link rel="stylesheet" href="../../common/button.css" />
     <link rel="stylesheet" href="../../common/card.css" />
+    <link rel="stylesheet" href="../../common/button.css" />
+    <link rel="stylesheet" href="../../common/add.css" />
+    <link rel="stylesheet" href="../../common/navigation.css" />
     <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="../../common/createEvent.css" />
     <script src="https://use.fontawesome.com/7d2690fbaa.js"></script>
     <script type="module">
       import { fetchEvent } from "./script.js";
-      window.onload = fetchEvent();
-      const newEventButton = document.getElementById("newEvent");
-      newEventButton.addEventListener("click", () => {
-        window.location.href = "../event/";
-      });
+      import { createEvent, getMonsters } from "../event/event.js";
+      window.onload = fetchEvent() && getMonsters();
+
+      const createButton = document.getElementById("createButton");
+      const eventImage = document.getElementsByName('eventImage')[0];
+      document.getElementById("event-form").onsubmit = function (e) {
+        e.preventDefault();
+        createEvent(eventImage.files[0]);
+      };
 
       const profileButton = document.getElementById("profile-pic");
       const profileModal = document.getElementById("profileModal");
       profileButton.addEventListener("click", () => {
-        // display the profile profileModal and add the user information in session storage to the html
         profileModal.style.display = 'block';
         const closeModal = document.getElementById("close-modal-profile");
         const profileName = document.getElementById("profileModal-title");
@@ -58,22 +63,19 @@
   </head>
   <body id="body">
     <article class="position-fixed header flex-row d-flex justify-content-between">
-      <div class="h1">
-        <img class="logo" src="../../../assets/images/logo.png" alt="logo" />
-        <h1>That Time I Got Reincarnated By A Website</h1>
+      <div>
+        <img class="rounded-image" src="../../../assets/images/logo.png" alt="profile" />
       </div>
-      <img id="profile-pic" src="../../../gallery/profile.jpg"/>
+      <div class="toggle">
+        <a id="public" class="on-off">Public</a>
+        <a id="private" class="on-off slider">Private</a>
+      </div>
+      <div>
+        <img id="profile-pic" class="rounded-image" src="../../../gallery/profile.jpg" alt="profile" />
+      </div>
     </article>
     <section class="row">
-      <aside class="position-fixed col-2 flex-column d-flex align-items-center">
-        <button id="newEvent" class="button parallelogram">
-          Create A Quest
-        </button>
-        <button class="button parallelogram">Create An Adventure</button>
-        <button class="button parallelogram">Create A Party</button>
-        <button class="button parallelogram">Public Quests</button>
-      </aside>
-      <main id="content" class="offset-2 col-10 row"></main>
+      <main id="content" class="m-2 row"></main>
       <div id="modal">
         <div class="modal-content">
           <div id="modal-header" class="flex-row d-flex justify-content-between">
@@ -187,5 +189,95 @@
         </div>
       </div>
     </section>
+    <footer>
+      <div class="footer">
+        <button id="plus-main" class="plus">Create</button>
+        <button id="event" class="addEvent plus" data-bs-toggle="modal" data-target="#addEvent" >Create Quest</button>
+        
+    
+        <button id="list" class="addList plus">Create Adventure</button>
+        <button id="group" class="addGroup plus">Create Group</button>
+      </div>
+    </footer>
+
+    <div class="hidden" id="addEvent">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="event-form" method="post">
+            <div class="form-group">
+              <input
+              type="text"
+              class="form-control"
+              id="eventTitle"
+              name="eventTitle"
+              placeholder="Enter Quest Title"
+              />
+              <label class="label-helper" for="eventTitle">Quest Title</label>
+            </div>
+            <div class="form-group">
+              <textarea
+              class="form-control"
+              id="eventDescription"
+              name="eventDescription"
+              rows="3"
+              placeholder="Enter Quest Description"
+              ></textarea>
+              <label class="label-helper" for="eventDescription">Quest Description</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-6">
+                <input
+                type="date"
+                class="form-control"
+                id="eventDate"
+                name="eventDate"
+                />
+                <label class="label-helper" for="eventDate">Quest Date</label>
+              </div>
+              <div class="col-6">
+                <input
+                type="time"
+                class="form-control"
+                id="eventTime"
+                name="eventTime"
+                />
+                <label class="label-helper" for="eventTime">Quest Time</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <select class="dropdown-menu" id="monsterList" name="monsters">
+              </select>
+              <label class="label-helper" for="monsterList">Quest Monster</label>
+            </div>
+            <div class="form-group">
+              <input
+              type="number"
+              class="form-control"
+              id="eventReward"
+              name="eventReward"
+              placeholder="Enter Quest Reward"
+              />
+              <label class="label-helper" for="eventReward">Quest Reward</label>
+            </div>
+            <div class="form-group">
+              <input
+              type="file"
+              class="form-control"
+              id="eventImage"
+              name="eventImage"
+              />
+              <label class="label-helper" for="eventImage">Quest Image</label>
+            <div class="flex-row d-flex justify-content-between p-2">
+              <button id="createButton" type="submit" class="button parallelogram">
+                Create Quest
+              </button>
+              <button type="reset" class="button parallelogram">
+                Let's not jump to our deaths
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

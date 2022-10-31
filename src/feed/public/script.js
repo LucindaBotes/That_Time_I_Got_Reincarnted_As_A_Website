@@ -102,3 +102,38 @@ export const showModal = (eventCard) => {
     modalBody.innerHTML += text.innerHTML;
   });
 }
+
+const addButton = document.getElementById("plus-main");
+addButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  addButton.removeEventListener("click", (e) => {});
+  const options = document.querySelectorAll(".plus");
+  options.forEach((option) => {
+    // check if the option is hidden
+    if (!option.classList.contains("visible")) {
+      option.classList.add("visible");
+      option.addEventListener("click", (e) => {
+        if (e.target.id === "event") {
+          window.location.href = "../event/";
+        } else if (e.target.id === "list") {
+          console.log("add list");
+        }
+        else if (e.target.id === "group") {
+          console.log("add group");
+        }
+      });
+    } else {
+      option.classList.remove("visible");
+    }
+  });
+});
+
+const privateButton = document.getElementById("private");
+privateButton.addEventListener("click", (e) => {
+  window.location.href = "../private/";
+});
+
+const publicButton = document.getElementById("public");
+publicButton.addEventListener("click", (e) => {
+  window.location.href = "../public/";
+});

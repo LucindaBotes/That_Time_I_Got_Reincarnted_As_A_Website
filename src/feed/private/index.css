@@ -12,60 +12,10 @@
 }
 
 body {
-  background-color: #043137;
+  background-color: #001824;
   height: 100vh;
   font-family: 'PT Sans', sans-serif;
   overflow-x: hidden;
-}
-
-article {
-  padding: 16px 16px 0px 16px;
-  background-color: #001824;
-  z-index: 10;
-}
-
-aside {
-  background-color: var(--green);
-  height: 100%;
-}
-
-section {
-  padding-top: 150px;
-  z-index: -1;
-  background-color: #043137;
-  height: calc(100vh - 150px);
-}
-
-main {
-  display: flex;
-  padding-top: auto;
-  width: 100%;
-  height: 100%;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
-}
-
-article.header {
-  display: flex;
-  width: 100%;
-  height: 150px;
-}
-
-article.header > .h1 {
-  display: flex;
-}
-
-article.header > .h1 > h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #fff;
-  text-align: center;
-  margin: 32px 32px;
-  padding: 0;
-  font-family: 'Anime';
 }
 
 .padd {
@@ -74,12 +24,12 @@ article.header > .h1 > h1 {
 
 #modal{
   display: none;
-  margin-top: 149px;
+  margin-top: 70px;
   z-index: 10;
   position: fixed;
   top: 0;
   right: 0;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 70px);
   width: 25%;
   border-radius: 0 0 0 16px;
   background-color: #001824;
@@ -89,21 +39,17 @@ article.header > .h1 > h1 {
 
 #profileModal{
   display: none;
-  margin-top: 149px;
+  margin-top: 70px;
   z-index: 10;
   position: fixed;
   top: 0;
   right: 0;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 70px);
   width: 25%;
   border-radius: 0 0 0 16px;
   background-color: #001824;
   border: 1px solid rgba(44, 44, 44, 0.353);
   color: white;
-}
-
-.eventCard{
-  height: 150px;
 }
 
 .modal-content {
@@ -140,15 +86,11 @@ div[class^="dropdown"] a{
   border: 1px solid rgba(44, 44, 44, 0.353);
 }
 
-#profile-pic {
-  width: 50px;
-  height: 50px;
+.rounded-image {
   border-radius: 50%;
-  margin-right: 2%;
-  margin-top: 1.5%;
-  display: block;
+  height: 50px;
+  width: 50px;
 }
-
 
 .noEvents{
   display: flex;
@@ -157,5 +99,22 @@ div[class^="dropdown"] a{
   height: 100%;
   width: 100%;
   font-size: 2rem;
+  color: var(--green);
+}
+
+.hidden {
+  display: none;
+}
+
+.customModal {
+  display: flex;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  background-color: var(--blue);
   color: var(--green);
 }

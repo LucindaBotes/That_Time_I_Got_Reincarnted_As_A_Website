@@ -4,7 +4,6 @@ export class EventCard {
   }
 
   clean() {
-    console.log(this.raw.description);
     return {
       id: this.raw.id,
       image: this.raw.event_thumbnail ? this.raw.event_thumbnail : "../../../gallery/placeholderImage.jpg",
@@ -22,7 +21,7 @@ export class EventCard {
     const {id, image, title, description, date, time, location, level, reward } =
       this.clean();
     return `
-      <div id="eventCard-${id}" class="padd col-4 eventCard" data-toggle="modal" data-target="#exampleModal" style="max-height: 300px">
+      <div id="eventCard-${id}" class="padd col-3 eventCard" style="max-height: 300px">
         <div class="card-deck" style="background-image: url('${image}'); background-size: cover; background-repeat: no-repeat; height: 300px; position: relative" >
           <div class="event-card">
               <h5 class="title">${title}</h5>

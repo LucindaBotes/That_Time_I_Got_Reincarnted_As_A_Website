@@ -4,7 +4,7 @@ export const fetchEvent = async () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
   
   fetch(
-    '../../../php/events/getGroupEvents.php', {
+    '../../../php/events/getAllEvents.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -102,3 +102,40 @@ export const showModal = (eventCard) => {
     modalBody.innerHTML += text.innerHTML;
   });
 }
+
+const addButton = document.getElementById("plus-main");
+addButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  addButton.removeEventListener("click", (e) => {});
+  const options = document.querySelectorAll(".plus");
+  options.forEach((option) => {
+    // check if the option is hidden
+    if (!option.classList.contains("visible")) {
+      option.classList.add("visible");
+      option.addEventListener("click", (e) => {
+        if (e.target.id === "event") {
+          const myModal = document.getElementById('addEvent');
+          myModal.classList.remove('hidden');
+          myModal.classList.add('customModal');
+        } else if (e.target.id === "list") {
+          console.log("add list");
+        }
+        else if (e.target.id === "group") {
+          console.log("add group");
+        }
+      });
+    } else {
+      option.classList.remove("visible");
+    }
+  });
+});
+
+const privateButton = document.getElementById("private");
+privateButton.addEventListener("click", (e) => {
+  window.location.href = "../private/";
+});
+
+const publicButton = document.getElementById("public");
+publicButton.addEventListener("click", (e) => {
+  window.location.href = "../public/";
+});

@@ -12,85 +12,10 @@
 }
 
 body {
-  background-color: #043137;
+  background-color: #001824;
   height: 100vh;
   font-family: 'PT Sans', sans-serif;
   overflow-x: hidden;
-}
-
-article {
-  padding: 16px 16px 0px 16px;
-  background-color: #001824;
-  z-index: 10;
-}
-
-aside {
-  background-color: var(--green);
-  height: 100%;
-}
-
-section {
-  padding-top: 150px;
-  z-index: -1;
-  background-color: #043137;
-  height: calc(100vh - 150px);
-}
-
-main {
-  display: flex;
-  padding-top: auto;
-  width: 100%;
-  height: 100%;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
-}
-
-article.header {
-  display: flex;
-  width: 100%;
-  height: 150px;
-}
-
-article.header > .h1 {
-  display: flex;
-}
-
-article.header > .h1 > h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #fff;
-  text-align: center;
-  margin: 32px 32px;
-  padding: 0;
-  font-family: 'Anime';
-}
-
-div[class^="card"]{
-background: rgba(28, 27, 27, 0.22);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-div[class^="card-img"] {
-  border-top-left-radius: none;
-  border-top-right-radius: none;
-}
-
-.card-img-top {
-  border-radius: 16px 16px 0px 0px;
-}
-
-div[class^="card-body"]{
-background: rgba(0, 0, 0, 0.1);
-border-radius: 0px 0px 16px 16px;
-color: azure;
-}
-
-div[class^="card-text"]{
-  overflow-wrap: break-word;
 }
 
 .padd {
@@ -161,7 +86,7 @@ div[class^="dropdown"] a{
   border: 1px solid rgba(44, 44, 44, 0.353);
 }
 
-#profile-pic {
+.profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;

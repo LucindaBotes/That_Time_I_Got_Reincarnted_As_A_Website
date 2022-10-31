@@ -1,0 +1,51 @@
+@import url(constants.css);
+
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  position: relative;
+}
+
+.plus {
+  position: fixed;
+  bottom: 10px;
+  background-color: var(--green);
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  border-radius: 50px;
+  width: 150px;
+  font-size: 12px;
+  z-index: 10;
+  border: none;
+}
+
+.addEvent{
+  display: none;
+  transform: translate(-170px, -50px);
+  
+}
+
+.addList{
+  display: none;
+  transform: translate(0px, -50px);
+}
+
+.addGroup{
+  display: none;
+  transform: translate(170px, -50px);
+}
+
+.visible{
+  display: block;
+  background-color: var(--green);
+}
+
+#plus-main:focus {
+  background-color: var(--blue);
+}
+
+

@@ -25,6 +25,8 @@
     <!-- <link rel="stylesheet" href="../../splash/index.css"> -->
     <link rel="stylesheet" href="../../common/card.css" />
     <link rel="stylesheet" href="../../common/button.css" />
+    <link rel="stylesheet" href="../../common/add.css" />
+    <link rel="stylesheet" href="../../common/navigation.css" />
     <link rel="stylesheet" href="index.css" />
     <script src="https://use.fontawesome.com/7d2690fbaa.js"></script>
     <script type="module">
@@ -58,22 +60,19 @@
   </head>
   <body id="body">
     <article class="position-fixed header flex-row d-flex justify-content-between">
-      <div class="h1">
-        <img class="logo" src="../../../assets/images/logo.png" alt="logo" />
-        <h1>That Time I Got Reincarnated By A Website</h1>
+      <div>
+        <img class="profile-pic" src="../../../assets/images/logo.png" alt="profile" />
       </div>
-      <img id="profile-pic" src="../../../gallery/profile.jpg"/>
+      <div class="toggle">
+        <a id="public" class="on-off slider">Public</a>
+        <a id="private" class="on-off">Private</a>
+      </div>
+      <div>
+        <img class="profile-pic" src="../../../gallery/profile.jpg" alt="profile" />
+      </div>
     </article>
     <section class="row">
-      <aside class="position-fixed col-2 flex-column d-flex align-items-center">
-        <button id="newEvent" class="button parallelogram">
-          Create A Quest
-        </button>
-        <button class="button parallelogram">Create An Adventure</button>
-        <button class="button parallelogram">Create A Party</button>
-        <button class="button parallelogram">Party Quests</button>
-      </aside>
-      <main id="content" class="offset-2 col-10 row"></main>
+      <main id="content" class="m-2 row"></main>
       <div id="modal">
         <div class="modal-content">
           <div id="modal-header" class="flex-row d-flex justify-content-between">
@@ -187,5 +186,13 @@
         </div>
       </div>
     </section>
+    <footer>
+      <div class="footer">
+        <button id="plus-main" class="plus">Create</button>
+        <button id="event" class="addEvent plus">Create Quest</button>
+        <button id="list" class="addList plus">Create Adventure</button>
+        <button id="group" class="addGroup plus">Create Group</button>
+      </div>
+    </footer>
   </body>
 </html>
