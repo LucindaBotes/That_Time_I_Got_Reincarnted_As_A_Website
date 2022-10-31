@@ -17,10 +17,14 @@ button.button:hover {
 }
 
 button.parallelogram{
-  /* transform: skew(-20deg); */
 }
 
 span.skew-fix{
   display:inline-block;
   transform: skew(20deg);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }

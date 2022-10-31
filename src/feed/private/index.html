@@ -31,6 +31,8 @@
     <script src="https://use.fontawesome.com/7d2690fbaa.js"></script>
     <script type="module">
       import { fetchEvent } from "./script.js";
+      import { createList } from "../event/list.js";
+      import { createGroup } from "../event/group.js";
       import { createEvent, getMonsters } from "../event/event.js";
       window.onload = fetchEvent() && getMonsters();
 
@@ -39,6 +41,18 @@
       document.getElementById("event-form").onsubmit = function (e) {
         e.preventDefault();
         createEvent(eventImage.files[0]);
+      };
+
+      const createAdventureButton = document.getElementById("createAdventureButton");
+      document.getElementById("adventure-form").onsubmit = function (e) {
+        e.preventDefault();
+        createList();
+      };
+
+      const createGroupButton = document.getElementById("createGroupButton");
+      document.getElementById("group-form").onsubmit = function (e) {
+        e.preventDefault();
+        createGroup();
       };
 
       const profileButton = document.getElementById("profile-pic");
@@ -74,7 +88,7 @@
         <img id="profile-pic" class="rounded-image" src="../../../gallery/profile.jpg" alt="profile" />
       </div>
     </article>
-    <section id="section" class="row">
+    <section class="row">
       <main id="content" class="m-2 row"></main>
       <div id="modal">
         <div class="modal-content">
@@ -192,20 +206,27 @@
     <footer>
       <div class="footer">
         <button id="plus-main" class="plus">Create</button>
-        <button id="event" class="addEvent plus" data-bs-toggle="modal" data-target="#addEvent" >Create Quest</button>
-        
-    
-        <button id="list" class="addList plus">Create Adventure</button>
-        <button id="group" class="addGroup plus">Create Group</button>
+        <button id="event" class="addEvent plus" data-bs-toggle="modal" data-target="#addEvent" >
+          <img class="icon" src="../../../assets/images/quest.png" alt="...">
+          Quest
+        </button>
+        <button id="list" class="addList plus">
+          <img class="icon" src="../../../assets/images/adventure.png" alt="...">
+          Adventure
+        </button>
+        <button id="group" class="addGroup plus">
+          <img class="icon" src="../../../assets/images/group.png" alt="...">
+          Group
+        </button>
       </div>
     </footer>
 
-    <div class="offset-3 hidden" id="addEvent">
-      <div class="modalContent">
+    <div id="section" class="overlay hidden">
+      <div class="offset-3 hidden" id="addEvent">
         <div id="closeModal">
           <img class="coins" src="../../../assets/images/close.png" alt="">
         </div>
-        <div class="">
+        <div class="modalContent">
           <form id="event-form" method="post">
             <div class="form-group">
               <input
@@ -274,10 +295,58 @@
               <button id="createButton" type="submit" class="button parallelogram">
                 Create Quest
               </button>
-              <button type="reset" class="button parallelogram">
-                Cancel
-              </button>
             </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div id="adventure" class="overlay hidden">
+      <div class="offset-3 hidden" id="addAdventure">
+        <div id="closeAdventureModal">
+          <img class="coins" src="../../../assets/images/close.png" alt="">
+        </div>
+        <div class="modalContent">
+          <form id="adventure-form" method="post">
+            <div class="form-group">
+              <input
+              type="text"
+              class="form-control"
+              id="adventureTitle"
+              name="adventureTitle"
+              placeholder="Enter Adventure Title"
+              />
+              <label class="label-helper" for="adventureTitle">Adventure Title</label>
+            </div>
+            <button id="createAdventureButton" type="submit" class="button parallelogram">
+              Create Adventure
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="groupModal" class="overlay hidden">
+      <div class="offset-3 hidden" id="addGroup">
+        <div id="closeGroupModal">
+          <img class="coins" src="../../../assets/images/close.png" alt="">
+        </div>
+        <div class="modalContent">
+          <form id="group-form" method="post">
+            <div class="form-group">
+              <input
+              type="text"
+              class="form-control"
+              id="groupTitle"
+              name="groupTitle"
+              placeholder="Enter Group Title"
+              />
+              <label class="label-helper" for="groupTitle">Group Title</label>
+            </div>
+            <button id="createGroupButton" type="submit" class="button parallelogram">
+              Create group
+            </button>
           </form>
         </div>
       </div>

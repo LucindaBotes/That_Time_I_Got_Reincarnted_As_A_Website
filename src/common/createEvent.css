@@ -151,3 +151,17 @@ option:hover {
 .modalContent {
   width: 100%;
 }
+
+.customModal {
+  display: flex;
+  border-radius: 16px;
+  top: 0;
+  justify-content: center;
+  margin-top: 70px;
+  position: absolute;
+  padding: 2.5%;
+  width: 50%;
+  font-size: 2rem;
+  background-color: rgba(0, 0, 0, 0.95);
+  color: var(--green);
+}

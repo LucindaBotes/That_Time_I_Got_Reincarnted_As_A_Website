@@ -103,23 +103,83 @@ export const showModal = (eventCard) => {
   });
 }
 
+const myModal = document.getElementById('addEvent');
+const myAdventureModal = document.getElementById('addAdventure');
+const myGroupModal = document.getElementById('addGroup');
+const options = document.querySelectorAll(".plus");
+const adventure = document.getElementById("adventure");
+const groupModal = document.getElementById("groupModal");
+const section = document.getElementById('section');
 const addButton = document.getElementById("plus-main");
+const closeModal = document.getElementById("closeModal");
+const closeAdventureModal = document.getElementById("closeAdventureModal");
+const closeGroupModal = document.getElementById("closeGroupModal");
+
+closeModal.addEventListener("click", () => {
+  myModal.classList.add('hidden');
+  myModal.classList.remove('customModal');
+  section.classList.add('hidden');
+});
+
+closeAdventureModal.addEventListener("click", () => {
+  myAdventureModal.classList.add('hidden');
+  myAdventureModal.classList.remove('customModal');
+  adventure.classList.add('hidden');
+});
+
+closeGroupModal.addEventListener("click", () => {
+  myGroupModal.classList.add('hidden');
+  myGroupModal.classList.remove('customModal');
+  groupModal.classList.add('hidden');
+});
+
 addButton.addEventListener("click", (e) => {
   e.preventDefault();
   addButton.removeEventListener("click", (e) => {});
-  const options = document.querySelectorAll(".plus");
+  
   options.forEach((option) => {
     // check if the option is hidden
     if (!option.classList.contains("visible")) {
       option.classList.add("visible");
       option.addEventListener("click", (e) => {
         if (e.target.id === "event") {
-          window.location.href = "../event/";
-        } else if (e.target.id === "list") {
-          console.log("add list");
+          myModal.classList.remove('hidden');
+          myModal.classList.add('customModal');
+          section.classList.remove('hidden');
+          section.addEventListener('click', (e) => {
+            if (e.target.id === 'section') {
+              myModal.classList.add('hidden');
+              myModal.classList.remove('customModal');
+              section.classList.add('hidden');
+            }
+          });
+        } 
+        if (e.target.id === "list") {
+          myAdventureModal.classList.remove('hidden');
+          myAdventureModal.classList.add('customModal');
+          adventure.classList.remove('hidden');
+          adventure.addEventListener('click', (e) => {
+            if (e.target.id === 'adventure') {
+              console.log("adventure");
+              myAdventureModal.classList.add('hidden');
+              myAdventureModal.classList.remove('customModal');
+              adventure.classList.add('hidden');
+            }
+          });
         }
-        else if (e.target.id === "group") {
-          console.log("add group");
+        
+        if (e.target.id === "group") {
+          myGroupModal.classList.remove('hidden');
+          myGroupModal.classList.add('customModal');
+          groupModal.classList.remove('hidden');
+          groupModal.addEventListener('click', (e) => {
+            if (e.target.id === 'groupModal') {
+              console.log("group");
+              myGroupModal.classList.add('hidden');
+              myGroupModal.classList.remove('customModal');
+              groupModal.classList.add('hidden');
+            }
+          });
         }
       });
     } else {

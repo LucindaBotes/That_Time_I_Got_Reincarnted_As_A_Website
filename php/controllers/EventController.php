@@ -120,11 +120,24 @@ class EventController extends Controller
     }
   }
 
-  public function getGroupEvents($groupId)
+  public function getGroupEvents($body)
   {
     try {
+
+      $errorMessages = array();
+      if (!isset($body['userId']) || $body['userId'] === '') {
+        array_push($errorMessages, 'Group is required');
+      }
+
+      if ($errorMessages !== []) {
+        $this->sendBadRequest($errorMessages);
+        die();
+      }
+
+      $userId = $body['userId'];
+
       $instance = Event::instance();
-      $events = $instance->getGroupEvents($groupId);
+      $events = $instance->getGroupEvents($userId);
       $this->sendSuccess($events);
     } catch (Exception $e) {
       if ($e->getCode() === 400) {

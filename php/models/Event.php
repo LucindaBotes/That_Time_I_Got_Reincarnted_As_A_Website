@@ -254,12 +254,12 @@ class Event extends Database
         $events[] = $this->select("SELECT eID FROM user_event WHERE uID = ?", ["i", $newUID]);
       }
 
-      $eventShown = [];
+      $result = array();
       foreach($events as $event){
-        $eventShown[] = $this->select("SELECT * FROM events WHERE id = ?", ["i", $event[0]['eID']]);
+        $result[] = $this->getEvent($event[0]['eID']);
       }
-
-      return $eventShown;
+      
+      return $result;
     }
     catch(Exception $e){
       throw new Exception('Error getting event', 500);
