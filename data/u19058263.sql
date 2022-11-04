@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2022 at 01:49 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Nov 01, 2022 at 09:19 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,7 +58,8 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`id`, `eName`, `eDescription`, `eDate`, `eTime`, `eLocation`, `eLevel`, `eReward`, `eThumbnail`, `deleted`) VALUES
 (45, 'Epic Cat Hunt', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-27', '12:40:00', 29, 8, 1, 18, NULL),
-(46, 'Spider Extermination', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-28', '13:27:00', 29, 1, 2, 19, NULL);
+(46, 'Spider Extermination', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-28', '13:27:00', 29, 1, 2, 19, NULL),
+(47, 'Fantastical Beast Hunt', 'The greatest bat hunt known to man from all across the world', '2022-11-02', '00:00:00', 30, 1, 1, 20, NULL);
 
 -- --------------------------------------------------------
 
@@ -71,6 +72,14 @@ CREATE TABLE `event_gallery` (
   `galleryID` int(11) NOT NULL,
   `externID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `event_gallery`
+--
+
+INSERT INTO `event_gallery` (`id`, `galleryID`, `externID`) VALUES
+(1, 36, 47),
+(2, 37, 47);
 
 -- --------------------------------------------------------
 
@@ -126,7 +135,8 @@ CREATE TABLE `event_monster` (
 
 INSERT INTO `event_monster` (`id`, `mID`, `eID`) VALUES
 (9, 131, 45),
-(10, 140, 46);
+(10, 140, 46),
+(11, 130, 47);
 
 -- --------------------------------------------------------
 
@@ -154,6 +164,16 @@ CREATE TABLE `event_reviews` (
   `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `event_reviews`
+--
+
+INSERT INTO `event_reviews` (`id`, `reviewID`, `eID`, `uID`) VALUES
+(3, 4, 45, 17),
+(4, 5, 46, 17),
+(5, 6, 45, 18),
+(6, 7, 47, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -171,7 +191,10 @@ CREATE TABLE `gallery` (
 
 INSERT INTO `gallery` (`id`, `imagePath`) VALUES
 (33, '../../../gallery/1666867266.png'),
-(34, '../../../gallery/1666870063.png');
+(34, '../../../gallery/1666870063.png'),
+(35, '../../../gallery/1667236568.png'),
+(36, '../../../gallery/1667244692.png'),
+(37, '../../../gallery/1667248029.png');
 
 -- --------------------------------------------------------
 
@@ -183,6 +206,14 @@ CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
   `gName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `gName`) VALUES
+(11, 'The fellowship of the ring'),
+(14, 'Trusty mates');
 
 -- --------------------------------------------------------
 
@@ -208,6 +239,14 @@ CREATE TABLE `group_users` (
   `gID` int(11) NOT NULL,
   `uID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `group_users`
+--
+
+INSERT INTO `group_users` (`id`, `gID`, `uID`) VALUES
+(3, 11, 17),
+(6, 14, 17);
 
 -- --------------------------------------------------------
 
@@ -274,7 +313,8 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`id`, `cID`, `tID`) VALUES
-(29, 22, 7);
+(29, 22, 7),
+(30, 31, 20);
 
 -- --------------------------------------------------------
 
@@ -512,6 +552,16 @@ CREATE TABLE `reviews` (
   `rText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `rText`) VALUES
+(4, 'Great quest'),
+(5, 'Greatest quest'),
+(6, 'Fun as always'),
+(7, 'Had a blast cathching the bat');
+
 -- --------------------------------------------------------
 
 --
@@ -530,7 +580,8 @@ CREATE TABLE `thumbnail_gallery` (
 
 INSERT INTO `thumbnail_gallery` (`id`, `galleryID`, `externID`) VALUES
 (18, 33, 45),
-(19, 34, 46);
+(19, 34, 46),
+(20, 35, 47);
 
 -- --------------------------------------------------------
 
@@ -672,7 +723,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `uName`, `uPass`, `uSalt`, `uLevel`, `uGold`, `uProfile`, `uLocation`, `deleted`) VALUES
-(17, 'Admin', 'ff391134a6b25f790e97f86d7393d8a3aaec6a780d94ffd2e764880024e3bbae', 'WGmpin', 8, 0, 1, 29, NULL);
+(17, 'Admin', 'ff391134a6b25f790e97f86d7393d8a3aaec6a780d94ffd2e764880024e3bbae', 'WGmpin', 8, 0, 1, 29, NULL),
+(18, 'JohnDoe', '313e7af7021f33b0f9edef741a5d6c1a4b657e2188729ff42e93f612fd81e213', 'QoorJx', 8, 0, 1, 30, NULL);
 
 -- --------------------------------------------------------
 
@@ -692,7 +744,8 @@ CREATE TABLE `user_event` (
 
 INSERT INTO `user_event` (`id`, `uID`, `eID`) VALUES
 (39, 17, 45),
-(40, 17, 46);
+(40, 17, 46),
+(41, 18, 47);
 
 -- --------------------------------------------------------
 
@@ -1002,13 +1055,13 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `event_gallery`
 --
 ALTER TABLE `event_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `event_level`
@@ -1032,7 +1085,7 @@ ALTER TABLE `event_location`
 -- AUTO_INCREMENT for table `event_monster`
 --
 ALTER TABLE `event_monster`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `event_ratings`
@@ -1044,19 +1097,19 @@ ALTER TABLE `event_ratings`
 -- AUTO_INCREMENT for table `event_reviews`
 --
 ALTER TABLE `event_reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `group_messages`
@@ -1068,7 +1121,7 @@ ALTER TABLE `group_messages`
 -- AUTO_INCREMENT for table `group_users`
 --
 ALTER TABLE `group_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -1092,7 +1145,7 @@ ALTER TABLE `lists`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -1128,13 +1181,13 @@ ALTER TABLE `ratings`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `thumbnail_gallery`
 --
 ALTER TABLE `thumbnail_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `town`
@@ -1146,13 +1199,13 @@ ALTER TABLE `town`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_event`
 --
 ALTER TABLE `user_event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `user_level`
